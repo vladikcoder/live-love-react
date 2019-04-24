@@ -1,0 +1,88 @@
+.Login {
+  font-family: Roboto, Helvetica, sans-serif;
+  font-size: 0.9em;
+  max-width: 300px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.Login-live-logo {
+  margin: 30px 0;
+}
+
+.Login-please-label {
+  color: rgb(199, 199, 204);
+  max-width: 220px;
+  margin: 15px auto;
+}
+
+.Login-phone-wrapper {
+  display: flex;
+}
+
+.Login-filling-wrapper {
+  margin: 40px 0;
+}
+
+.Login-filling-wrapper a {
+  color: black;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.Login-filling-wrapper input {
+  font-size: 1em;
+  outline: none;
+  padding: 10px;
+}
+
+.Login-country-code {
+  border: 1px solid rgb(199, 199, 204);
+  border-left: none;
+  border-right: none;
+  font-size: 1.1em;
+  padding: 10px;
+}
+
+.Login-phone-input {
+  border: 1px solid rgb(199, 199, 204);
+  border-right: none;
+  width: 100%;
+  -moz-appearance: textfield;
+}
+
+.Login-phone-input::-webkit-inner-spin-button {
+  display: none;
+}
+
+.Login-register-wrapper {
+  margin-top: 20px;
+  padding: 5px 5px 5px 15px;
+  text-align: left;
+}
+
+.Login-cont-btn {
+  padding: 15px 5px;
+  border: 0;
+  border-radius: 25px;
+  background: rgb(211, 49, 60);
+  font-size: 1.25em;
+  color: white;
+  margin: 50px 0;
+  outline: none;
+  width: 80%;
+}
+
+input::-moz-placeholder {
+  color: rgb(199, 199, 204);
+}
+
+input::-webkit-input-placeholder {
+  color: rgb(199, 199, 204);
+}
+
+@media (max-width: 400px) {
+  .Login {
+    max-width: 400px;
+  }
+}

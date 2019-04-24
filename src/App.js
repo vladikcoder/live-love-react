@@ -1,14 +1,23 @@
-import React from 'react';
-import './App.css';
+import React, { Component } from "react";
+import { Switch, Route } from "react-router-dom";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Get Starting with React</h1>
-      </header>
-    </div>
-  );
+import Registration from "./Registration";
+import RegConfirmation from "./RegConfirmation";
+import Login from "./Login";
+
+class App extends Component {
+  render() {
+    return (
+      <Switch>
+        <Route exact path="/" render={props => <Login {...props} />} />
+        <Route path="/register" render={props => <Registration {...props} />} />
+        <Route
+          path="/confirmation"
+          render={props => <RegConfirmation {...props} />}
+        />
+      </Switch>
+    );
+  }
 }
 
 export default App;

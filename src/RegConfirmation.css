@@ -1,0 +1,96 @@
+.RegConfirmation {
+  font-family: Roboto, Helvetica, sans-serif;
+  font-size: 0.9em;
+  max-width: 300px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.RegConfirmation-header {
+  border-bottom: 1px solid rgb(199, 199, 204);
+  position: relative;
+}
+
+.RegConfirmation-header h3 {
+  display: inline-block;
+}
+
+.RegConfirmation-logo-back {
+  position: absolute;
+  cursor: pointer;
+  left: 5px;
+  bottom: 0;
+  top: 0;
+  margin: auto;
+}
+
+.RegConfirmation-confirm-label {
+  font-size: 1.3em;
+}
+
+.RegConfirmation-sms-label {
+  color: rgb(199, 199, 204);
+  max-width: 220px;
+  margin: 15px auto;
+}
+
+.RegConfirmation-code-wrapper {
+  display: flex;
+}
+
+.RegConfirmation-filling-wrapper {
+  margin: 40px 0;
+}
+
+.RegConfirmation-filling-wrapper a {
+  color: black;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.RegConfirmation-filling-wrapper input {
+  font-size: 1em;
+  outline: none;
+  padding: 10px;
+}
+
+.RegConfirmation-code-input {
+  border: 1px solid rgb(199, 199, 204);
+  border-left: none;
+  border-right: none;
+  width: 100%;
+}
+
+.RegConfirmation-status-wrapper {
+  color: rgb(199, 199, 204);
+  font-size: 0.7em;
+  margin: 20px 0;
+  padding: 0 15px;
+  text-align: left;
+}
+
+.RegConfirmation-cont-btn {
+  padding: 15px 5px;
+  border: 0;
+  border-radius: 25px;
+  background: rgb(211, 49, 60);
+  font-size: 1.25em;
+  color: white;
+  /* margin: 50px 0; */
+  outline: none;
+  width: 80%;
+}
+
+input::-moz-placeholder {
+  color: rgb(199, 199, 204);
+}
+
+input::-webkit-input-placeholder {
+  color: rgb(199, 199, 204);
+}
+
+@media (max-width: 400px) {
+  .RegConfirmation {
+    max-width: 400px;
+  }
+}

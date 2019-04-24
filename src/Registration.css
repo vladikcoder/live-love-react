@@ -1,0 +1,120 @@
+.Registration {
+  font-family: Roboto, Helvetica, sans-serif;
+  font-size: 0.9em;
+  max-width: 300px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.Registration-header {
+  position: relative;
+}
+
+.Registration-logo-back {
+  position: absolute;
+  cursor: pointer;
+  left: 5px;
+  bottom: 0;
+  top: 0;
+  margin: auto;
+}
+
+.Registration-offer-label {
+  background: rgba(211, 49, 60, 0.15);
+  color: rgb(211, 49, 60);
+  /* font-weight: bold; */
+  font-size: 0.75em;
+  padding: 7px 0;
+}
+
+.Registration-personal-label {
+  font-size: 1.3em;
+}
+
+.Registration-please-label {
+  color: rgb(199, 199, 204);
+  max-width: 220px;
+  margin: 15px auto;
+}
+
+.Registration-name-wrapper {
+  display: flex;
+}
+
+.Registration-phone-wrapper {
+  display: flex;
+}
+
+.Registration-filling-wrapper {
+  margin: 40px 0;
+}
+
+.Registration-filling-wrapper a {
+  color: black;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.Registration-filling-wrapper input {
+  font-size: 1em;
+  outline: none;
+  padding: 10px;
+}
+
+.Registration-name-input {
+  border: 1px solid rgb(199, 199, 204);
+  border-left: none;
+  border-right: none;
+  width: 100%;
+}
+
+.Registration-country-code {
+  border-bottom: 1px solid rgb(199, 199, 204);
+  border-top: none;
+  font-size: 1.1em;
+  padding: 10px;
+}
+
+.Registration-phone-input {
+  border: 1px solid rgb(199, 199, 204);
+  border-top: none;
+  border-right: none;
+  width: 100%;
+  -moz-appearance: textfield;
+}
+
+.Registration-phone-input::-webkit-inner-spin-button {
+  display: none;
+}
+
+.Registration-agree-wrapper {
+  margin-top: 20px;
+  padding: 5px 5px 5px 15px;
+  text-align: left;
+}
+
+.Registration-cont-btn {
+  padding: 15px 5px;
+  border: 0;
+  border-radius: 25px;
+  background: rgb(211, 49, 60);
+  font-size: 1.25em;
+  color: white;
+  margin: 50px 0;
+  outline: none;
+  width: 80%;
+}
+
+input::-moz-placeholder {
+  color: rgb(199, 199, 204);
+}
+
+input::-webkit-input-placeholder {
+  color: rgb(199, 199, 204);
+}
+
+@media (max-width: 400px) {
+  .Registration {
+    max-width: 400px;
+  }
+}

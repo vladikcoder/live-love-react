@@ -1,4 +1,4 @@
-.RegConfirmation {
+.Confirmation {
   font-family: Roboto, Helvetica, sans-serif;
   font-size: 0.9em;
   max-width: 300px;
@@ -6,16 +6,16 @@
   text-align: center;
 }
 
-.RegConfirmation-header {
+.Confirmation-header {
   border-bottom: 1px solid rgb(199, 199, 204);
   position: relative;
 }
 
-.RegConfirmation-header h3 {
+.Confirmation-header h3 {
   display: inline-block;
 }
 
-.RegConfirmation-logo-back {
+.Confirmation-logo-back {
   position: absolute;
   cursor: pointer;
   left: 5px;
@@ -24,44 +24,54 @@
   margin: auto;
 }
 
-.RegConfirmation-confirm-label {
+.Confirmation-sms-status {
+  animation: smsStatusShading  2s 1 ease-in-out;
+}
+
+@keyframes smsStatusShading {
+  from {background: rgba(211, 49, 60, 0.15);}
+  /*50% {text-shadow: 0 0 30px black;}*/
+  to {background: none;}
+}
+
+.Confirmation-confirm-label {
   font-size: 1.3em;
 }
 
-.RegConfirmation-sms-label {
+.Confirmation-sms-label {
   color: rgb(199, 199, 204);
   max-width: 220px;
   margin: 15px auto;
 }
 
-.RegConfirmation-code-wrapper {
+.Confirmation-code-wrapper {
   display: flex;
 }
 
-.RegConfirmation-filling-wrapper {
+.Confirmation-filling-wrapper {
   margin: 40px 0;
 }
 
-.RegConfirmation-filling-wrapper a {
+.Confirmation-filling-wrapper a {
   color: black;
   font-weight: bold;
   text-decoration: none;
 }
 
-.RegConfirmation-filling-wrapper input {
+.Confirmation-filling-wrapper input {
   font-size: 1em;
   outline: none;
   padding: 10px;
 }
 
-.RegConfirmation-code-input {
+.Confirmation-code-input {
   border: 1px solid rgb(199, 199, 204);
   border-left: none;
   border-right: none;
   width: 100%;
 }
 
-.RegConfirmation-status-wrapper {
+.Confirmation-status-wrapper {
   color: rgb(199, 199, 204);
   font-size: 0.7em;
   margin: 20px 0;
@@ -69,7 +79,7 @@
   text-align: left;
 }
 
-.RegConfirmation-cont-btn {
+.Confirmation-cont-btn {
   padding: 15px 5px;
   border: 0;
   border-radius: 25px;
@@ -81,6 +91,12 @@
   width: 80%;
 }
 
+.Confirmation-highlighted {
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
+
 input::-moz-placeholder {
   color: rgb(199, 199, 204);
 }
@@ -90,7 +106,7 @@ input::-webkit-input-placeholder {
 }
 
 @media (max-width: 400px) {
-  .RegConfirmation {
+  .Confirmation {
     max-width: 400px;
   }
 }

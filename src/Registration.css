@@ -34,7 +34,17 @@
 .Registration-please-label {
   color: rgb(199, 199, 204);
   max-width: 220px;
-  margin: 15px auto;
+  margin: 15px auto 40px auto;
+}
+
+.Registration-status-label {
+  animation: shading  2s 1 ease-in-out;
+}
+
+@keyframes shading {
+  from {background: rgba(211, 49, 60, 0.15);}
+  /*50% {text-shadow: 0 0 30px black;}*/
+  to {background: none;}
 }
 
 .Registration-name-wrapper {

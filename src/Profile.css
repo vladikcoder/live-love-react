@@ -1,4 +1,4 @@
-.Login {
+.Profile {
   font-family: Roboto, Helvetica, sans-serif;
   font-size: 0.9em;
   max-width: 300px;
@@ -6,47 +6,37 @@
   text-align: center;
 }
 
-.Login-live-logo {
+.Profile-live-logo {
   margin: 30px 0;
 }
 
-.Login-please-label {
+.Profile-please-label {
   color: rgb(199, 199, 204);
   max-width: 220px;
-  margin: 15px auto 40px auto;
+  margin: 15px auto;
 }
 
-.Login-status {
-  animation: loginInfoShading  2s 1 ease-in-out;
-}
-
-@keyframes loginInfoShading {
-  from {background: rgba(211, 49, 60, 0.15);}
-  /*50% {text-shadow: 0 0 30px black;}*/
-  to {background: none;}
-}
-
-.Login-phone-wrapper {
+.Profile-phone-wrapper {
   display: flex;
 }
 
-.Login-filling-wrapper {
+.Profile-filling-wrapper {
   margin: 40px 0;
 }
 
-.Login-filling-wrapper a {
+.Profile-filling-wrapper a {
   color: black;
   font-weight: bold;
   text-decoration: none;
 }
 
-.Login-filling-wrapper input {
+.Profile-filling-wrapper input {
   font-size: 1em;
   outline: none;
   padding: 10px;
 }
 
-.Login-country-code {
+.Profile-country-code {
   border: 1px solid rgb(199, 199, 204);
   border-left: none;
   border-right: none;
@@ -54,24 +44,24 @@
   padding: 10px;
 }
 
-.Login-phone-input {
+.Profile-phone-input {
   border: 1px solid rgb(199, 199, 204);
   border-right: none;
   width: 100%;
   -moz-appearance: textfield;
 }
 
-.Login-phone-input::-webkit-inner-spin-button {
+.Profile-phone-input::-webkit-inner-spin-button {
   display: none;
 }
 
-.Login-register-wrapper {
+.Profile-register-wrapper {
   margin-top: 20px;
   padding: 5px 5px 5px 15px;
   text-align: left;
 }
 
-.Login-cont-btn {
+.Profile-cont-btn {
   padding: 15px 5px;
   border: 0;
   border-radius: 25px;
@@ -92,7 +82,7 @@ input::-webkit-input-placeholder {
 }
 
 @media (max-width: 400px) {
-  .Login {
+  .Profile {
     max-width: 400px;
   }
 }

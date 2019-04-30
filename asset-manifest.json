@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/static/css/main.58f21737.chunk.css",
-    "main.js": "/static/js/main.ab8f23b0.chunk.js",
-    "main.js.map": "/static/js/main.ab8f23b0.chunk.js.map",
-    "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
-    "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
-    "static/js/2.78b44f00.chunk.js": "/static/js/2.78b44f00.chunk.js",
-    "static/js/2.78b44f00.chunk.js.map": "/static/js/2.78b44f00.chunk.js.map",
-    "index.html": "/index.html",
-    "precache-manifest.66932adb5f4355508fad3f9225a78fae.js": "/precache-manifest.66932adb5f4355508fad3f9225a78fae.js",
-    "service-worker.js": "/service-worker.js",
-    "static/css/main.58f21737.chunk.css.map": "/static/css/main.58f21737.chunk.css.map",
-    "static/media/live-logo.jpg": "/static/media/live-logo.dbac1706.jpg"
+    "main.css": "/live-love-react/static/css/main.58f21737.chunk.css",
+    "main.js": "/live-love-react/static/js/main.ae5a7f5d.chunk.js",
+    "main.js.map": "/live-love-react/static/js/main.ae5a7f5d.chunk.js.map",
+    "runtime~main.js": "/live-love-react/static/js/runtime~main.8ff0b47a.js",
+    "runtime~main.js.map": "/live-love-react/static/js/runtime~main.8ff0b47a.js.map",
+    "static/js/2.78b44f00.chunk.js": "/live-love-react/static/js/2.78b44f00.chunk.js",
+    "static/js/2.78b44f00.chunk.js.map": "/live-love-react/static/js/2.78b44f00.chunk.js.map",
+    "index.html": "/live-love-react/index.html",
+    "precache-manifest.6ef3b5ff2f9e5044780558f71b08f197.js": "/live-love-react/precache-manifest.6ef3b5ff2f9e5044780558f71b08f197.js",
+    "service-worker.js": "/live-love-react/service-worker.js",
+    "static/css/main.58f21737.chunk.css.map": "/live-love-react/static/css/main.58f21737.chunk.css.map",
+    "static/media/live-logo.jpg": "/live-love-react/static/media/live-logo.dbac1706.jpg"
   }
 }

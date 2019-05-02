@@ -6,6 +6,7 @@ import Registration from "./Registration";
 import Confirmation from "./Confirmation";
 import Login from "./Login";
 import Profile from "./Profile";
+import ProfileEdit from "./ProfileEdit";
 
 
 // import fetch from "cross-fetch";
@@ -24,8 +25,12 @@ class App extends Component {
           render={props => <Confirmation {...props} />}
         />
         <Route
-          path="/profile"
+          exact path="/profile"
           render={props => <Profile {...props} />}
+        />
+        <Route
+          path="/profile/edit"
+          render={props => <ProfileEdit {...props} />}
         />
       </Switch>
     );

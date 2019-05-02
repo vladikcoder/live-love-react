@@ -12,7 +12,26 @@ const initialState = {
     name: '',
     phone: '',
     data: {},
-    profile: {}
+    profile: {
+      "id":"",
+      "name":"",
+      "phone":"",
+      "created_at":"",
+      "updated_at":"",
+      "position":null,
+      "biography":null,
+      "programs":[]
+
+      // "id":32,
+      // "name":"Vlad Polyakov",
+      // "phone":"380634530267",
+      // "created_at":"2019-04-28 11:29:00",
+      // "updated_at":"2019-04-28 11:29:00",
+      // "position":null,
+      // "biography":null,
+      // "programs":[]
+
+    }
   }
 };
 

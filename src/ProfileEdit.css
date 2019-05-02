@@ -1,0 +1,124 @@
+.ProfileEdit {
+  font-family: Roboto, Helvetica, sans-serif;
+  font-size: 0.9em;
+  max-width: 375px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+}
+
+.ProfileEdit-header {
+  position: relative;
+}
+
+.ProfileEdit-header span {
+  color: rgb(211, 49, 60);
+  font-size: 1.2em;
+  padding-top: 1px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 17px;
+}
+
+.ProfileEdit-avatar-container {
+  height: 230px;
+  position: relative;
+}
+
+.ProfileEdit-avatar-container img {
+  background: linear-gradient(to left,
+    rgb(219, 62 ,73) 2.33%,
+    rgb(218, 65 ,78) 4.66%,
+    rgb(214, 72 ,92) 6.99%,
+    rgb(209, 82 ,109) 9.32%,
+    rgb(202, 93 ,128),
+    rgb(193, 105, 146),
+    rgb(183, 116, 164),
+    rgb(172, 127, 181),
+    rgb(160, 136, 197),
+    rgb(148, 145, 211),
+    rgb(136, 153, 223),
+    rgb(125, 159, 232),
+    rgb(115, 164, 240),
+    rgb(108, 167, 244),
+    rgb(106, 168, 246));
+  border-radius: 50%;
+  bottom: 0;
+  height: 150px;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 150px;
+}
+
+.ProfileEdit-user-info {
+  text-align: left;
+}
+
+.ProfileEdit-user-info input {
+  border: 0;
+  font-size: 1.1em;
+  letter-spacing: 1px;
+  outline: none;
+  padding: 16px;
+  width: 343px;
+}
+
+.ProfileEdit-user-info textarea {
+  border: 0;
+  font-size: 1.1em;
+  letter-spacing: 1px;
+  outline: none;
+  overflow: hidden;
+  padding: 16px;
+  resize: none;
+  width: 343px;
+}
+
+.ProfileEdit-user-info-label {
+  background: rgb(249, 249, 249);
+  font-weight: bold;
+  font-size: 1.1em;
+  letter-spacing: 1px;
+  padding: 32px 16px 4px 16px;
+}
+
+.User-info-social {
+  padding: 15px;
+  position: relative;
+}
+
+.User-info-social img {
+  bottom: 0;
+  left: 16px;
+  margin: auto;
+  position: absolute;
+  top: 0;
+}
+
+.User-info-social-label {
+  color: rgb(199, 199, 204);
+  font-size: 1.2em;
+  margin-left: 25px;
+  padding: 5px;
+}
+
+.Instagram {
+  border-top: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
+}
+
+.User-info-social-connect {
+  bottom: 0;
+  color: rgb(211, 49, 60);
+  font-size: .9em;
+  font-weight: bold;
+  height: 15px;
+  margin: auto;
+  position: absolute;
+  right: 16px;
+  top: 0;
+}

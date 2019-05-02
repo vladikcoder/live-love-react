@@ -16,6 +16,7 @@ class Confirmation extends Component {
   };
 
   componentDidMount() {
+
     if (this.props.user.profile.id) {
       this.props.history.push("/profile");
     }

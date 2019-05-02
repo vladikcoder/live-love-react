@@ -186,7 +186,7 @@ export default connect(
   }),
   dispatch => ({
     onRegister: (user) => {
-      dispatch({ type: "SET_USER", payload: {...user} })
+      dispatch({ type: "SET_USER", payload: {...user, profile: {}} })
     }
   }),
 )(Registration);

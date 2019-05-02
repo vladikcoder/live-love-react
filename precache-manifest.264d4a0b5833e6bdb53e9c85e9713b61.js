@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "3420e06b09e65dad3e4bbf54ca699a0b",
+    "revision": "1bcd9e63fe313bb49ec3c1402ce787e9",
     "url": "/live-love-react/index.html"
   },
   {
-    "revision": "b3af19c44e2528aeb5bd",
+    "revision": "18c6cfa50ddd1c19445b",
     "url": "/live-love-react/static/css/main.4b39d5a8.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/live-love-react/static/js/2.d72748de.chunk.js"
   },
   {
-    "revision": "b3af19c44e2528aeb5bd",
-    "url": "/live-love-react/static/js/main.af906adf.chunk.js"
+    "revision": "18c6cfa50ddd1c19445b",
+    "url": "/live-love-react/static/js/main.c545b3d9.chunk.js"
   },
   {
     "revision": "c51753efc8d5ff1610c3",

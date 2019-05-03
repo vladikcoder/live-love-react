@@ -23,17 +23,15 @@ class Confirmation extends Component {
   }
 
   smsVerify(code) {
-    console.log(`Auth: 'Bearer ${this.props.user.data.token}'`)
+    let {phone} = this.props.user;
 
     fetch('http://ll.jdev.com.ua/api/user/smsverify', {
       headers: {
         'Accept': 'text/html; charset=UTF-8',
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.props.user.data.token}`
       },
       method: 'POST',
-      // body: JSON.stringify({name: 'sergey',phone: '380672623783'})
-      body: JSON.stringify({ code })
+      body: JSON.stringify({ phone, code })
     })
     .then(response => {
       if (response.ok) {
@@ -49,12 +47,31 @@ class Confirmation extends Component {
     })
     .then(data => {
       if (!this.state.isWrong) {
-        this.props.onSetProfile(JSON.parse(data));
-        this.props.history.push("/profile");
+        this.props.onSetToken(JSON.parse(data));
+        this.getUserProfile(phone);
       } else {
         console.log(data);
       }
     }).catch(console.warn)
+  }
+
+  getUserProfile(phone) {
+    let { access_token } = this.props.user;
+
+    fetch(`http://ll.jdev.com.ua/api/users/${phone}`, {
+      headers: {
+        'Accept': 'text/html; charset=UTF-8',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${access_token}`
+      },
+      method: 'GET'
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.props.onSetProfile(data);
+        this.props.history.push("/profile");
+      })
+      .catch(console.warn)
   }
 
   sendAgain() {
@@ -68,15 +85,12 @@ class Confirmation extends Component {
       method: 'POST',
       body: JSON.stringify({ phone })
     })
-    .then(response => {
+    .then(() => {
       this.setState({
         isWrong: false,
         smsStatus: 'Код отправлен повторно'
       });
-
-      return response.json();
     })
-    .then(this.props.onSetToken)
     .catch(console.warn)
   }
 

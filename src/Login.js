@@ -39,7 +39,10 @@ class Login extends Component {
     })
     .then(response => {
       if (response.ok) {
-        this.setState({ isLogin: true, logStatus: '' });
+        this.setState({ logStatus: '' });
+        this.props.onLogin({ phone: `380${phone}` });
+        this.props.history.push("/confirm");
+
       } else if (response.status === 422) {
         this.setState({
           validationInfo: '',
@@ -49,14 +52,7 @@ class Login extends Component {
 
       return response.json();
     })
-    .then(data => {
-      this.props.onLogin({
-        data,
-        phone: `380${phone}`
-      });
-
-      this.props.history.push("/confirm");
-    }).catch(console.warn)
+    .catch(console.warn)
   }
 
   inputHandler(event) {

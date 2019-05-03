@@ -32,7 +32,7 @@ class Registration extends Component {
     if (!isAgree) {
       this.setState({
         agreeStyle: {
-          'background' : 'rgba(211, 49, 60, 0.15)'
+          'background': 'rgba(211, 49, 60, 0.15)'
         }
       });
       return;
@@ -51,7 +51,6 @@ class Registration extends Component {
         'Content-Type': 'application/json'
       },
       method: 'POST',
-      // body: JSON.stringify({name: 'sergey',phone: '380672623783'})
       body: JSON.stringify({ name, phone: `380${phone}` })
     })
     .then(response => {
@@ -66,10 +65,8 @@ class Registration extends Component {
 
       return response.json();
     })
-    .then(data => {
+    .then(() => {
       this.props.onRegister({
-        data,
-        name,
         phone: `380${phone}`
       });
 
@@ -112,10 +109,13 @@ class Registration extends Component {
           <h3>Регистрация</h3>
         </div>
 
+        { !isAgree &&
         <p className="Registration-offer-label">
           Пожалуйста, согласитесь с условиями оферты
-        </p>
+        </p>}
+
         <p className="Registration-personal-label">Личные данные</p>
+
         <p className="Registration-please-label">
           Пожалуйста, введите своё имя и номер телефона
         </p>

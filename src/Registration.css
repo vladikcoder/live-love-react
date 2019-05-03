@@ -3,11 +3,18 @@
   font-size: 0.9em;
   max-width: 300px;
   margin: 0 auto;
+  position: relative;
   text-align: center;
 }
 
 .Registration-header {
   position: relative;
+}
+
+.Registration-header h3 {
+  height: 44px;
+  line-height: 44px;
+  margin: 0;
 }
 
 .Registration-logo-back {
@@ -22,13 +29,17 @@
 .Registration-offer-label {
   background: rgba(211, 49, 60, 0.15);
   color: rgb(211, 49, 60);
-  /* font-weight: bold; */
   font-size: 0.75em;
+  margin: 0;
   padding: 7px 0;
+  position: absolute;
+  top: 44px;
+  width: 100%;
 }
 
 .Registration-personal-label {
   font-size: 1.3em;
+  margin-top: 40px;
 }
 
 .Registration-please-label {

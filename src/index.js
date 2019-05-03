@@ -11,7 +11,7 @@ const initialState = {
   user: {
     name: '',
     phone: '',
-    data: {},
+    access_token: '',
     profile: {
       "id":"",
       "name":"",
@@ -44,16 +44,18 @@ function reducer(state = initialState, action) {
   }
 
   if (action.type === 'SET_TOKEN') {
+    let { access_token } = action.payload;
+
     return {
       ...state,
-      user: {...state.user, data: {...action.payload}}
+      user: {...state.user, access_token}
     };
   }
 
   if (action.type === 'SET_PROFILE') {
     return {
       ...state,
-      user: {...state.user, profile: {...action.payload}}
+      user: {...state.user, profile: action.payload }
     };
   }
 

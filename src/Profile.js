@@ -18,7 +18,7 @@ class Profile extends Component {
   }
 
   render() {
-    let {id, name, phone} = this.props.user.profile;
+    let {id, name, phone, image} = this.props.user.profile;
 
     if (!id) {
       this.props.history.push('/');
@@ -32,7 +32,7 @@ class Profile extends Component {
 
         <img
           className="Profile-user-avatar"
-          src={avatarLogo}
+          src={image ? `${image}` : avatarLogo}
           alt="user-avatar"
         />
 

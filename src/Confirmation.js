@@ -46,8 +46,9 @@ class Confirmation extends Component {
       return response.text();
     })
     .then(data => {
+
       if (!this.state.isWrong) {
-        this.props.onSetToken(JSON.parse(data));
+        this.props.onSetToken(data);
         this.getUserProfile(phone);
       } else {
         console.log(data);

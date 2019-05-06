@@ -20,7 +20,11 @@ const initialState = {
       "updated_at":"",
       "position":null,
       "biography":null,
-      "programs":[]
+      "programs":[],
+      "image": null,
+      "facebook" : null,
+      "instagram" : null,
+      "strava" : null
 
       // "id":32,
       // "name":"Vlad Polyakov",
@@ -29,8 +33,11 @@ const initialState = {
       // "updated_at":"2019-04-28 11:29:00",
       // "position":null,
       // "biography":null,
-      // "programs":[]
-
+      // "programs":[],
+      // "image": null,
+      // "facebook" : null,
+      // "instagram" : null,
+      // "strava" : null
     }
   }
 };
@@ -44,11 +51,9 @@ function reducer(state = initialState, action) {
   }
 
   if (action.type === 'SET_TOKEN') {
-    let { access_token } = action.payload;
-
     return {
       ...state,
-      user: {...state.user, access_token}
+      user: {...state.user, access_token: action.payload}
     };
   }
 

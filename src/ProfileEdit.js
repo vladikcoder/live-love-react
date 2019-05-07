@@ -20,7 +20,6 @@ class ProfileEdit extends Component {
       "programs":[],
       "image": null
     },
-
     charCount: ''
   };
 
@@ -31,35 +30,50 @@ class ProfileEdit extends Component {
       localProfile: {...profile},
       charCount: (profile.biography) ? 1000 - profile.biography.length : 1000
     });
-
-    this.imageUploader();
   }
 
-  editUpdater() {
-    let {id, name, phone, biography, position } = this.state.localProfile;
+  editUpdater(shouldRedirect) {
+    // eslint-disable-next-line
+    let { id } = this.state.localProfile;
+    let { localProfile } = this.state;
     let { access_token } = this.props.user;
 
-    if (this.isAnyChangesMade()) {
-      console.log('fetching...');
+    let editFields = this.isAnyChangesMade();
+
+    if (editFields.length) {
+      let data = new FormData();
+
+      for (let field of editFields) {
+        data.append(field, localProfile[field]);
+      }
+
+      console.log('fetching...', data.get('image'));
+
       fetch(`http://ll.jdev.com.ua/api/users/edit/${id}`, {
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json',
+          // 'Content-Type': 'multipart/form-data',
           'Authorization': `Bearer ${access_token}`
         },
         method: 'POST',
-        body: JSON.stringify({ name, phone, biography, position })
+        body: data
       })
       .then(response => {
         if (response.ok) {
-          this.props.onSetProfile(this.state.localProfile);
-          this.props.history.push('/profile');
+          this.setState({isEditSuccess: true});
+          return response.json()
         }
+      })
+      .then(updatedProfile => {
+        console.log('new_profile: ', updatedProfile.data);
+        this.props.onSetProfile(updatedProfile.data);
+        shouldRedirect &&
+          this.props.history.push('/profile');
       })
       .catch(console.warn);
     } else {
-      console.log('no changes');
-      this.props.history.push('/profile')
+      shouldRedirect &&
+        this.props.history.push('/profile')
     }
   }
 
@@ -71,12 +85,13 @@ class ProfileEdit extends Component {
     for (let field of editableFields) {
       if (localProfile[field] !== profile[field]) {
         console.log('Changes on: ', field);
-        return true;
+      } else {
+        editableFields = editableFields.filter(item => item !== field);
       }
     }
 
-    console.log('AnyChangesNotMade');
-    return false;
+    console.log('changes at: ', editableFields);
+    return editableFields;
   }
 
   inputChangeHandler(event, field) {
@@ -114,163 +129,6 @@ class ProfileEdit extends Component {
     }
   }
 
-  imageUploader() {
-    let setState = this.setState.bind(this);
-    var Imgur;
-
-    (function (root, factory) {
-      if (typeof exports === 'object') {
-        module.exports = factory();
-      } else {
-        root.Imgur = factory();
-      }
-    }(this, function () {
-      Imgur = function (options) {
-        if (!this || !(this instanceof Imgur)) {
-          return new Imgur(options);
-        }
-
-        if (!options) {
-          options = {};
-        }
-
-        this.clientid = options.clientid;
-        this.endpoint = 'https://api.imgur.com/3/image';
-        this.callback = options.callback || undefined;
-        this.dropzone = document.querySelectorAll('.dropzone');
-
-        this.run();
-      };
-
-      Imgur.prototype = {
-        createEls: function (name, props, text) {
-          var el = document.createElement(name), p;
-          for (p in props) {
-            if (props.hasOwnProperty(p)) {
-              el[p] = props[p];
-            }
-          }
-          if (text) {
-            el.appendChild(document.createTextNode(text));
-          }
-          return el;
-        },
-        insertAfter: function (referenceNode, newNode) {
-          referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-        },
-        post: function (path, data, callback) {
-          var xhttp = new XMLHttpRequest();
-
-          xhttp.open('POST', path, true);
-          xhttp.setRequestHeader('Authorization', 'Client-ID ' + this.clientid);
-          xhttp.onreadystatechange = function () {
-            if (this.readyState === 4) {
-              if (this.status >= 200 && this.status < 300) {
-                var response = '';
-                try {
-                  response = JSON.parse(this.responseText);
-                } catch (err) {
-                  response = this.responseText;
-                }
-                callback.call(window, response);
-              } else {
-                throw new Error(this.status + " - " + this.statusText);
-              }
-            }
-          };
-          xhttp.send(data);
-          xhttp = null;
-        },
-        createDragZone: function () {
-          Array.prototype.forEach.call(this.dropzone, function (zone) {
-            this.upload(zone);
-          }.bind(this));
-        },
-        loading: function () {
-          var div, table, img;
-
-          div = this.createEls('div', {className: 'loading-modal'});
-          table = this.createEls('table', {className: 'loading-table'});
-          img = this.createEls('img', {className: 'loading-image', src: './css/loading-spin.svg'});
-
-          div.appendChild(table);
-          table.appendChild(img);
-          document.body.appendChild(div);
-        },
-        matchFiles: function (file, zone) {
-          if (file.type.match(/image/) && file.type !== 'image/svg+xml') {
-            document.body.classList.add('loading');
-
-            var fd = new FormData();
-            fd.append('image', file);
-
-            this.post(this.endpoint, fd, function (data) {
-              document.body.classList.remove('loading');
-              typeof this.callback === 'function' && this.callback.call(this, data);
-            }.bind(this));
-          }
-        },
-        upload: function (zone) {
-          var events = ['dragenter', 'dragleave', 'dragover', 'drop'],
-            file, target, i, len;
-
-          zone.addEventListener('change', function (e) {
-            if (e.target && e.target.nodeName === 'INPUT' && e.target.type === 'file') {
-              target = e.target.files;
-
-              for (i = 0, len = target.length; i < len; i += 1) {
-                file = target[i];
-                this.matchFiles(file, zone);
-              }
-            }
-          }.bind(this), false);
-
-          // eslint-disable-next-line
-          events.map(function (event) {
-            zone.addEventListener(event, function (e) {
-              if (e.target && e.target.nodeName === 'INPUT' && e.target.type === 'file') {
-                if (event === 'dragleave' || event === 'drop') {
-                  e.target.parentNode.classList.remove('dropzone-dragging');
-                } else {
-                  e.target.parentNode.classList.add('dropzone-dragging');
-                }
-              }
-            }, false);
-          });
-        },
-        run: function () {
-          var loadingModal = document.querySelector('.loading-modal');
-
-          if (!loadingModal) {
-            this.loading();
-          }
-          this.createDragZone();
-        }
-      };
-
-      return Imgur;
-    }));
-
-
-    var feedback = function(res) {
-      if (res.success === true) {
-        var get_link = res.data.link.replace(/^http:\/\//i, 'https://');
-
-        setState(prevState => {
-          let newLocalProfile = {...prevState.localProfile};
-          newLocalProfile.image = get_link;
-
-          return {localProfile: newLocalProfile}
-        });
-      }
-    };
-
-    new Imgur({
-      clientid: '4409588f10776f7', //You can change this ClientID
-      callback: feedback
-    });
-  }
-
   removeAvatar() {
     this.setState(prevState => {
       let newLocalProfile = {...prevState.localProfile};
@@ -280,10 +138,28 @@ class ProfileEdit extends Component {
     });
   }
 
+  imageHandler(event) {
+    let image = event.target.files[0];
+
+    this.setState(prevState => {
+      let newProfile = {...prevState.localProfile};
+      newProfile.image = image;
+
+      return {localProfile: newProfile}
+    }, () => {
+      if (image) {
+        console.log('image: ', image);
+        console.log('image JSON: ', JSON.stringify(image));
+        this.editUpdater();
+      }
+    })
+  }
+
   render() {
     let { id } = this.props.user.profile;
     let { name, phone, position, biography, image } = this.state.localProfile;
     let { charCount } = this.state;
+    let baseURL = 'http://ll.jdev.com.ua/storage';
 
     if (!id) {
       this.props.history.push('/');
@@ -293,16 +169,28 @@ class ProfileEdit extends Component {
       <div className="ProfileEdit">
         <div className="ProfileEdit-header">
           <h3>Редактировать</h3>
-            <span onClick={() => this.editUpdater()}>Done</span>
+            <span
+              onClick={() => this.editUpdater(['name', 'phone', 'biography', 'position', 'image'])}
+            >
+              Done
+            </span>
         </div>
 
         <div className={image ? 'ProfileEdit-avatar-container' : 'ProfileEdit-avatar-container dropzone'}>
-          <img
-            src={image ? `${image}` : avatarLogo}
-            alt="avatarLogo"
-          />
 
-          {image ? (
+          {
+            (image instanceof File) ? (
+              <p>loading ...</p>
+            ) : (
+              <img
+                src={image ? `${baseURL}/${image}` : avatarLogo}
+                alt="avatarLogo"
+              />
+            )
+          }
+
+
+          {(image) ? (
               <span
                 className="ProfileEdit-avatar-remove-btn"
                 onClick={() => this.removeAvatar()}
@@ -311,6 +199,7 @@ class ProfileEdit extends Component {
               </span>
             ) : (
               <input
+                onChange={event => this.imageHandler(event)}
                 type="file"
                 className="input"
                 accept="image/*"

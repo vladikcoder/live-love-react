@@ -18,6 +18,7 @@ class Profile extends Component {
   }
 
   render() {
+    let baseURL = 'http://ll.jdev.com.ua/storage';
     let {id, name, phone, image} = this.props.user.profile;
 
     if (!id) {
@@ -30,11 +31,16 @@ class Profile extends Component {
           <span>×</span>
         </div>
 
-        <img
-          className="Profile-user-avatar"
-          src={image ? `${image}` : avatarLogo}
-          alt="user-avatar"
-        />
+        {
+          (image instanceof File) ? (
+            <p>loading ...</p>
+          ) : (
+            <img
+              src={image ? `${baseURL}/${image}` : avatarLogo}
+              alt="avatarLogo"
+            />
+          )
+        }
 
         <p className="Profile-user-name">
           {name}, 34

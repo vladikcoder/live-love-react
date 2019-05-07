@@ -60,7 +60,7 @@ function reducer(state = initialState, action) {
   if (action.type === 'SET_PROFILE') {
     return {
       ...state,
-      user: {...state.user, profile: action.payload }
+      user: {...state.user, profile: { ...state.user.profile, ...action.payload} }
     };
   }
 

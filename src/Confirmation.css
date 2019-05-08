@@ -30,7 +30,6 @@
 
 @keyframes smsStatusShading {
   from {background: rgba(211, 49, 60, 0.15);}
-  /*50% {text-shadow: 0 0 30px black;}*/
   to {background: none;}
 }
 

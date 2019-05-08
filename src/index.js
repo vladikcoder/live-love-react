@@ -13,24 +13,11 @@ const initialState = {
     phone: '',
     access_token: '',
     profile: {
-      "id":"",
-      "name":"",
-      "phone":"",
-      "created_at":"",
-      "updated_at":"",
-      "position":null,
-      "biography":null,
-      "programs":[],
-      "image": null,
-      "facebook" : null,
-      "instagram" : null,
-      "strava" : null
-
-      // "id":32,
-      // "name":"Vlad Polyakov",
-      // "phone":"380634530267",
-      // "created_at":"2019-04-28 11:29:00",
-      // "updated_at":"2019-04-28 11:29:00",
+      // "id":"",
+      // "name":"",
+      // "phone":"",
+      // "created_at":"",
+      // "updated_at":"",
       // "position":null,
       // "biography":null,
       // "programs":[],
@@ -38,6 +25,19 @@ const initialState = {
       // "facebook" : null,
       // "instagram" : null,
       // "strava" : null
+
+      "id":32,
+      "name":"Vlad Polyakov",
+      "phone":"380634530267",
+      "created_at":"2019-04-28 11:29:00",
+      "updated_at":"2019-04-28 11:29:00",
+      "position":null,
+      "biography":null,
+      "programs":[],
+      "image": null,
+      "facebook" : null,
+      "instagram" : "https://www.instagram.com/anastasia_oconnell/",
+      "strava" : null
     }
   }
 };

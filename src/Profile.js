@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 
 import './Profile.css';
 import avatarLogo from './img/avatar.png';
+import emptyLogo from './img/empty.png';
 import facebookLogo from './img/fb.png';
 import instagramLogo from './img/inst.png';
 import stravaLogo from './img/strava.png';
@@ -19,7 +20,7 @@ class Profile extends Component {
 
   render() {
     let baseURL = 'http://ll.jdev.com.ua/storage';
-    let {id, name, phone, image} = this.props.user.profile;
+    let {id, name, phone, image, facebook, instagram, strava} = this.props.user.profile;
 
     if (!id) {
       this.props.history.push('/');
@@ -36,6 +37,7 @@ class Profile extends Component {
             <p>loading ...</p>
           ) : (
             <img
+              className="Profile-user-avatar"
               src={image ? `${baseURL}/${image}` : avatarLogo}
               alt="avatarLogo"
             />
@@ -49,30 +51,65 @@ class Profile extends Component {
 
         <div className="Profile-nav">
           <div className="Profile-nav-item">
-            <div className="Profile-nav-logo-wrapper">
-              <img
-                src={facebookLogo}
-                alt="facebookLogo"
-              />
-            </div>
+              {facebook ? (
+                <a href={facebook}>
+                  <div className="Profile-nav-logo-wrapper">
+                    <img
+                      src={facebookLogo}
+                      alt="facebookLogo"
+                    />
+                  </div>
+                </a>
+              ) : (
+                <div className="Profile-nav-logo-wrapper">
+                  <img
+                    src={emptyLogo}
+                    alt="facebookLogo"
+                  />
+                </div>
+              )}
             <p>Facebook</p>
           </div>
           <div className="Profile-nav-item">
-            <div className="Profile-nav-logo-wrapper">
-              <img
-                src={instagramLogo}
-                alt="instagramLogo"
-              />
-            </div>
+              {instagram ? (
+                <a href={instagram}>
+                  <div className="Profile-nav-logo-wrapper">
+                      <img
+                        src={instagramLogo}
+                        alt="instagramLogo"
+                      />
+                  </div>
+                </a>
+              ) : (
+                <div className="Profile-nav-logo-wrapper">
+                  <img
+                    src={emptyLogo}
+                    alt="instagramLogo"
+                  />
+                </div>
+              )}
             <p>Instagram</p>
           </div>
           <div className="Profile-nav-item">
-            <div className="Profile-nav-logo-wrapper">
-              <img
-                src={stravaLogo}
-                alt="stravaLogo"
-              />
-            </div>
+
+              {strava ? (
+                <a href={strava}>
+                  <div className="Profile-nav-logo-wrapper">
+                    <img
+                      src={stravaLogo}
+                      alt="stravaLogo"
+                    />
+                  </div>
+                </a>
+              ) : (
+                <div className="Profile-nav-logo-wrapper">
+                  <img
+                    src={emptyLogo}
+                    alt="stravaLogo"
+                  />
+                </div>
+              )}
+
             <p>Strava</p>
           </div>
           <div className="Profile-nav-divider" />

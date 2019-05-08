@@ -7,6 +7,70 @@
   position: relative;
 }
 
+.ProfileEdit-add-social-modal-background {
+  background: rgba(0, 0, 0, .6);
+  height: 100%;
+  position: absolute;
+  width: 100%;
+  z-index: 5;
+}
+
+.ProfileEdit-add-social-modal-window {
+  background: white;
+  bottom: 0;
+  height: 129px;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 300px;
+  z-index: 6;
+}
+
+.add-social-modal-window-header {
+  color: rgb(199, 199, 204);
+  margin: 0;
+  padding: 10px;
+}
+
+.add-social-modal-window-header span {
+  color: black;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.add-social-modal-window-header span::first-letter {
+  text-transform: uppercase;
+}
+
+
+.ProfileEdit-add-social-modal-window input {
+  border: 1px solid rgb(199, 199, 204);
+  border-left: none;
+  border-right: none;
+  box-sizing: border-box;
+  outline: none;
+  padding: 10px;
+  width: 100%;
+}
+
+.add-social-modal-buttons-wrapper button {
+  background: none;
+  border: none;
+  font-size: 1.2em;
+  padding: 10px 5px;
+  width: 50%;
+}
+
+.add-social-modal-buttons-wrapper button:hover {
+  background: lightblue;
+}
+
+.add-social-modal-buttons-wrapper button:first-child {
+  border-right: 1px solid rgb(199, 199, 204);
+}
+
 .dropzone {
   height: 150px;
   position: relative;
@@ -32,9 +96,15 @@
   position: relative;
 }
 
+.ProfileEdit-header h3 {
+  margin: 0;
+  padding: 16px 0;
+}
+
 .ProfileEdit-header span {
   color: rgb(211, 49, 60);
   font-size: 1.2em;
+  line-height: 51px;
   padding-top: 1px;
   position: absolute;
   top: 0;
@@ -156,6 +226,12 @@
   padding: 5px;
 }
 
+.User-info-social-label a {
+  color: black;
+  font-weight: bold;
+  text-decoration: none;
+}
+
 .Instagram {
   border-top: 1px solid lightgray;
   border-bottom: 1px solid lightgray;
@@ -164,6 +240,7 @@
 .User-info-social-connect {
   bottom: 0;
   color: rgb(211, 49, 60);
+  cursor: pointer;
   font-size: .9em;
   font-weight: bold;
   height: 15px;
@@ -171,4 +248,8 @@
   position: absolute;
   right: 16px;
   top: 0;
+}
+
+.delete {
+  color: rgb(199, 199, 204);
 }

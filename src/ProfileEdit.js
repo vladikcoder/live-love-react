@@ -5,26 +5,35 @@ import {connect} from 'react-redux';
 import './ProfileEdit.css';
 import avatarLogo from './img/avatar.png';
 import emptyLogo from './img/empty.png';
-import fetch from "cross-fetch";
+import facebookLogo from './img/fb.png';
+import instagramLogo from './img/inst.png';
+import stravaLogo from './img/strava.png';
+import fetch from 'cross-fetch';
 
 class ProfileEdit extends Component {
   state = {
     localProfile: {
-      "id":"",
-      "name":"",
-      "phone":"",
-      "created_at":"",
-      "updated_at":"",
-      "position":"",
-      "biography":"",
-      "programs":[],
-      "image": null
+      'id': '',
+      'name': '',
+      'phone': '',
+      'created_at': '',
+      'updated_at': '',
+      'position': '',
+      'biography': '',
+      'programs': [],
+      'image': null,
+      'facebook': null,
+      'instagram': null,
+      'strava': null
     },
-    charCount: ''
+    charCount: '',
+    pendingSocial: '',
+    pendingSocialQuery: '',
+    showModal: false
   };
 
   componentDidMount() {
-    let { profile } = this.props.user;
+    let {profile} = this.props.user;
 
     this.setState({
       localProfile: {...profile},
@@ -34,9 +43,9 @@ class ProfileEdit extends Component {
 
   editUpdater(shouldRedirect) {
     // eslint-disable-next-line
-    let { id } = this.state.localProfile;
-    let { localProfile } = this.state;
-    let { access_token } = this.props.user;
+    let {id} = this.state.localProfile;
+    let {localProfile} = this.state;
+    let {access_token} = this.props.user;
 
     let editFields = this.isAnyChangesMade();
 
@@ -57,30 +66,27 @@ class ProfileEdit extends Component {
         },
         method: 'POST',
         body: data
-      })
-      .then(response => {
+      }).then(response => {
         if (response.ok) {
           this.setState({isEditSuccess: true});
-          return response.json()
+          return response.json();
         }
-      })
-      .then(updatedProfile => {
+      }).then(updatedProfile => {
         console.log('new_profile: ', updatedProfile.data);
         this.props.onSetProfile(updatedProfile.data);
         shouldRedirect &&
-          this.props.history.push('/profile');
-      })
-      .catch(console.warn);
+        this.props.history.push('/profile');
+      }).catch(console.warn);
     } else {
       shouldRedirect &&
-        this.props.history.push('/profile')
+      this.props.history.push('/profile');
     }
   }
 
   isAnyChangesMade() {
     let editableFields = ['name', 'phone', 'biography', 'position', 'image'];
-    let { localProfile } = this.state;
-    let { profile } = this.props.user;
+    let {localProfile} = this.state;
+    let {profile} = this.props.user;
 
     for (let field of editableFields) {
       if (localProfile[field] !== profile[field]) {
@@ -110,13 +116,13 @@ class ProfileEdit extends Component {
         return {
           charCount: 1000 - value.length,
           localProfile: newProfile
-        }
+        };
       }
 
       return {
         localProfile: newProfile
-      }
-    })
+      };
+    });
   }
 
   getCharCountStyle(charCount) {
@@ -126,7 +132,7 @@ class ProfileEdit extends Component {
       ) : (
         'rgb(211, 49, 60)'
       )
-    }
+    };
   }
 
   removeAvatar() {
@@ -134,7 +140,7 @@ class ProfileEdit extends Component {
       let newLocalProfile = {...prevState.localProfile};
       newLocalProfile.image = '';
 
-      return {localProfile: newLocalProfile}
+      return {localProfile: newLocalProfile};
     });
   }
 
@@ -145,33 +151,116 @@ class ProfileEdit extends Component {
       let newProfile = {...prevState.localProfile};
       newProfile.image = image;
 
-      return {localProfile: newProfile}
+      return {localProfile: newProfile};
     }, () => {
       if (image) {
         console.log('image: ', image);
         console.log('image JSON: ', JSON.stringify(image));
         this.editUpdater();
       }
+    });
+  }
+
+  inputSocialHandler(event) {
+    let {value} = event.target;
+
+    this.setState({pendingSocialQuery: value});
+  }
+
+  addSocial(networkName, socialId) {
+    let socialProfileLink = '';
+
+    switch (networkName) {
+      case 'facebook':
+        if (/\D/.test(socialId)) {
+          socialProfileLink = `https://www.facebook.com/${socialId}`
+        } else {
+          socialProfileLink = `https://www.facebook.com/profile.php?id=${socialId}`
+        }
+        break;
+
+      case 'instagram':
+        socialProfileLink = `https://www.instagram.com/${socialId}`;
+        break;
+
+      case 'strava':
+        socialProfileLink = `https://www.strava.com/athletes/${socialId}`;
+        break;
+    }
+
+    this.setState(prevState => {
+      let newProfile = {...prevState.localProfile};
+      newProfile[networkName] = socialProfileLink;
+
+      return {
+        localProfile: newProfile,
+        pendingSocialQuery: '',
+        pendingSocial: '',
+        showModal: false
+      }
+    })
+  }
+
+  removeSocial(networkName) {
+    this.setState(prevState => {
+      let newProfile = {...prevState.localProfile};
+      newProfile[networkName] = '';
+
+      return {localProfile: newProfile}
     })
   }
 
   render() {
-    let { id } = this.props.user.profile;
-    let { name, phone, position, biography, image } = this.state.localProfile;
-    let { charCount } = this.state;
+    let {id} = this.props.user.profile;
+    let {name, phone, position, biography, image, facebook, instagram, strava} = this.state.localProfile;
+    let {charCount, pendingSocial, pendingSocialQuery, showModal} = this.state;
     let baseURL = 'http://ll.jdev.com.ua/storage';
 
     if (!id) {
       this.props.history.push('/');
     }
 
+    console.log(this.state);
+
     return (
       <div className="ProfileEdit">
+        {showModal &&
+          <div className="ProfileEdit-add-social-modal-background">
+            <div className="ProfileEdit-add-social-modal-window">
+              <p className="add-social-modal-window-header">Введите Id или Nickname вашего <span>{pendingSocial}</span> профиля</p>
+              <div>
+                <input
+                  onChange={(event) => this.inputSocialHandler(event)}
+                  type="text"
+                  value={pendingSocialQuery}
+                />
+              </div>
+              <div className="add-social-modal-buttons-wrapper">
+                <button
+                  onClick={() =>
+                    this.setState({
+                      pendingSocial: '',
+                      pendingSocialQuery: '',
+                      showModal: false
+                    })}
+                >
+                  Отмена
+                </button>
+                <button
+                  onClick={() => this.addSocial(pendingSocial, pendingSocialQuery)}
+                >
+                  Добавить
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+
         <div className="ProfileEdit-header">
           <h3>Редактировать</h3>
-            <span
-              onClick={() => this.editUpdater(['name', 'phone', 'biography', 'position', 'image'])}
-            >
+          <span
+            onClick={() => this.editUpdater(['name', 'phone', 'biography', 'position', 'image'])}
+          >
               Done
             </span>
         </div>
@@ -191,20 +280,20 @@ class ProfileEdit extends Component {
 
 
           {(image) ? (
-              <span
-                className="ProfileEdit-avatar-remove-btn"
-                onClick={() => this.removeAvatar()}
-              >
+            <span
+              className="ProfileEdit-avatar-remove-btn"
+              onClick={() => this.removeAvatar()}
+            >
                   ×
               </span>
-            ) : (
-              <input
-                onChange={event => this.imageHandler(event)}
-                type="file"
-                className="input"
-                accept="image/*"
-              />
-            )}
+          ) : (
+            <input
+              onChange={event => this.imageHandler(event)}
+              type="file"
+              className="input"
+              accept="image/*"
+            />
+          )}
         </div>
 
         <div className="ProfileEdit-user-info">
@@ -218,12 +307,12 @@ class ProfileEdit extends Component {
                   return;
                 }
 
-                this.inputChangeHandler(event, 'name')
+                this.inputChangeHandler(event, 'name');
               }}
               maxLength="30"
               placeholder="Имя Фамилия"
               type="text"
-              value={name} />
+              value={name}/>
           </div>
           <div>
             <div className="ProfileEdit-user-info-label">
@@ -233,7 +322,7 @@ class ProfileEdit extends Component {
               className="ProfileEdit-user-info-phone-input"
               onChange={event => {
                 if (/[^0-9|+]/.test(event.target.value)) {
-                  return
+                  return;
                 }
 
                 this.inputChangeHandler(event, 'phone');
@@ -241,7 +330,7 @@ class ProfileEdit extends Component {
               maxLength="13"
               placeholder="+380"
               type="tel"
-              value={`+380${phone.slice(3)}`} />
+              value={`+380${phone.slice(3)}`}/>
           </div>
           <div>
             <div className="ProfileEdit-user-info-label">
@@ -277,32 +366,53 @@ class ProfileEdit extends Component {
             </div>
 
             <div className="User-info-social Facebook">
-              <img src={emptyLogo} alt="emptyLogo"/>
+              <img src={facebook ? facebookLogo : emptyLogo} alt="emptyLogo"/>
               <span className="User-info-social-label">
-                Добавить Facebook
+                {facebook ? <a href={facebook}>Facebook</a> : "Добавить Facebook"}
               </span>
-              <span className="User-info-social-connect">
-                ДОБАВИТЬ
+              <span
+                className={facebook ? "User-info-social-connect delete" : "User-info-social-connect"}
+                onClick={() => facebook ? (
+                  this.removeSocial('facebook')
+                ) : (
+                  this.setState({showModal: true, pendingSocial: 'facebook'})
+                )}
+              >
+                {facebook ? "УДАЛИТЬ" : "ДОБАВИТЬ"}
               </span>
             </div>
 
             <div className="User-info-social Instagram">
-              <img src={emptyLogo} alt="emptyLogo"/>
+              <img src={instagram ? instagramLogo : emptyLogo} alt="emptyLogo"/>
               <span className="User-info-social-label">
-                Добавить Instagram
+                {instagram ? <a href={instagram}>Instagram</a> : "Добавить Instagram"}
               </span>
-              <span className="User-info-social-connect">
-                ДОБАВИТЬ
+              <span
+                className={instagram ? "User-info-social-connect delete" : "User-info-social-connect"}
+                onClick={() => instagram ? (
+                  this.removeSocial('instagram')
+                ) : (
+                  this.setState({showModal: true, pendingSocial: 'instagram'})
+                )}
+              >
+                {instagram ? "УДАЛИТЬ" : "ДОБАВИТЬ"}
               </span>
             </div>
 
             <div className="User-info-social Strava">
-              <img src={emptyLogo} alt="emptyLogo"/>
+              <img src={strava ? stravaLogo : emptyLogo} alt="emptyLogo"/>
               <span className="User-info-social-label">
-                Добавить Strava
+                {strava ? <a href={strava}>Strava</a> : "Добавить Strava"}
               </span>
-              <span className="User-info-social-connect">
-                ДОБАВИТЬ
+              <span
+                className={strava ? "User-info-social-connect delete" : "User-info-social-connect"}
+                onClick={() => strava ? (
+                  this.removeSocial('strava')
+                ) : (
+                  this.setState({showModal: true, pendingSocial: 'strava'})
+                )}
+              >
+                {strava ? "УДАЛИТЬ" : "ДОБАВИТЬ"}
               </span>
             </div>
 
@@ -310,7 +420,7 @@ class ProfileEdit extends Component {
         </div>
 
       </div>
-    )
+    );
   }
 
 }
@@ -320,8 +430,8 @@ export default connect(
     user: {...state.user}
   }),
   dispatch => ({
-    onSetProfile: ( profile ) => {
-      dispatch({ type: "SET_PROFILE", payload: profile })
+    onSetProfile: (profile) => {
+      dispatch({type: 'SET_PROFILE', payload: profile});
     }
   }),
 )(ProfileEdit);

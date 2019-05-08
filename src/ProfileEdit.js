@@ -230,6 +230,7 @@ class ProfileEdit extends Component {
               <p className="add-social-modal-window-header">Введите Id или Nickname вашего <span>{pendingSocial}</span> профиля</p>
               <div>
                 <input
+                  maxLength="30"
                   onChange={(event) => this.inputSocialHandler(event)}
                   type="text"
                   value={pendingSocialQuery}

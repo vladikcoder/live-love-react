@@ -39,9 +39,12 @@ class Profile extends Component {
             <p>loading ...</p>
           ) : (
             <img
-              className="Profile-user-avatar"
-              src={image ? `${baseURL}/${image}` : avatarLogo}
               alt="avatarLogo"
+              className="Profile-user-avatar"
+              onError={event =>{
+                event.target.src = avatarLogo
+              }}
+              src={image ? `${baseURL}/${image}` : avatarLogo}
             />
           )
         }

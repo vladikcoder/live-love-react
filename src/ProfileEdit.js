@@ -84,7 +84,7 @@ class ProfileEdit extends Component {
   }
 
   isAnyChangesMade() {
-    let editableFields = ['name', 'phone', 'biography', 'position', 'image'];
+    let editableFields = ['name', 'phone', 'biography', 'position', 'image', 'facebook', 'instagram', 'strava'];
     let {localProfile} = this.state;
     let {profile} = this.props.user;
 
@@ -260,7 +260,7 @@ class ProfileEdit extends Component {
         <div className="ProfileEdit-header">
           <h3>Редактировать</h3>
           <span
-            onClick={() => this.editUpdater(['name', 'phone', 'biography', 'position', 'image'])}
+            onClick={() => this.editUpdater(true)}
           >
               Done
             </span>
@@ -273,8 +273,11 @@ class ProfileEdit extends Component {
               <p>loading ...</p>
             ) : (
               <img
-                src={image ? `${baseURL}/${image}` : avatarLogo}
                 alt="avatarLogo"
+                onError={event =>{
+                  event.target.src = avatarLogo
+                }}
+                src={image ? `${baseURL}/${image}` : avatarLogo}
               />
             )
           }

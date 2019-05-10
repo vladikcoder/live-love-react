@@ -7,6 +7,7 @@ import Confirmation from "./Confirmation";
 import Login from "./Login";
 import Profile from "./Profile";
 import ProfileEdit from "./ProfileEdit";
+import Feed from "./Feed";
 
 class App extends Component {
 
@@ -28,6 +29,10 @@ class App extends Component {
         <Route
           path="/profile/edit"
           render={props => <ProfileEdit {...props} />}
+        />
+        <Route
+          path="/feed"
+          render={props => <Feed {...props} />}
         />
       </Switch>
     );

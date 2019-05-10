@@ -3,6 +3,7 @@
   font-size: 0.9em;
   max-width: 375px;
   margin: 0 auto;
+  min-height: 671px;
   text-align: center;
   position: relative;
 }
@@ -135,6 +136,7 @@
 
 .Profile-programs {
   background: rgb(249, 249, 249);
+  min-height: 306px;
   text-align: left;
   padding-bottom: 16px;
 }
@@ -155,6 +157,12 @@
   max-width: 200px;
 }
 
+.Profile-programs-none-title {
+  margin: 0;
+  padding: 16px;
+  font-size: 1.15em;
+}
+
 .Profile-programs-current-item {
   background: white;
   border-radius: 7px;
@@ -163,8 +171,20 @@
   overflow: hidden;
 }
 
+.Profile-programs-current-item-photo-wrapper {
+  border-radius: 5px;
+  height: 110px;
+  margin: 0 16px 16px 16px;
+  overflow: hidden;
+}
+
+.Profile-programs-current-item-photo-wrapper img {
+  width: 100%;
+}
+
 .Profile-programs-item-status-bar {
   padding-left: 16px;
+  padding-bottom: 16px;
 }
 
 .Profile-programs-item-status-bar span {

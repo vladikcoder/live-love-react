@@ -20,7 +20,7 @@ class Profile extends Component {
 
   render() {
     let baseURL = 'http://ll.jdev.com.ua/storage';
-    let {id, name, phone, image, facebook, instagram, strava} = this.props.user.profile;
+    let {id, name, phone, image, programs, facebook, instagram, strava} = this.props.user.profile;
 
     if (!id) {
       this.props.history.push('/');
@@ -29,7 +29,9 @@ class Profile extends Component {
     return (
       <div className="Profile">
         <div className="Profile-fade-header">
-          <span>×</span>
+          <Link to="/feed">
+            <span>×</span>
+          </Link>
         </div>
 
         {
@@ -121,83 +123,115 @@ class Profile extends Component {
                   alt="editLogo"
                 />
               </div>
-              <p>Изменить</p>
             </Link>
+            <p>Изменить</p>
           </div>
         </div>
 
         <div className="Profile-programs">
-          <div className="Profile-programs-current-container">
-            <p className="Profile-programs-title">
-              Мои программы
-            </p>
-
-            <div className="Profile-programs-current-item">
-              <p className="Profile-programs-item-title">
-                Проплыви свой первый километр
-              </p>
-              
-              <div className="Profile-programs-item-status-bar">
-                <div className="status-bar-duration">
-                  <img
-                    src={clockLogo}
-                    alt="clockLogo"
-                  />
-                  <span>
-                    12 недель
-                  </span>
-                </div>
-                <div className="status-bar-participants">
-                  <img
-                    src={peopleLogo}
-                    alt="peopleLogo"
-                  />
-                  <span>
-                    16 участников
-                  </span>
-                </div>
-              </div>
-
-              <img src="" alt=""/>
-            </div>
-          </div>
-
-          <div className="Profile-programs-done-container">
-            <p className="Profile-programs-title">
-              Пройденные
-            </p>
-
-            <div className="Profile-programs-current-item">
-              <div className="Profile-programs-done-cover" />
-              <p className="Profile-programs-item-title">
-                Проплыви свой первый километр
+            <div className="Profile-programs-current-container">
+              <p className="Profile-programs-title">
+                Мои программы
               </p>
 
-              <div className="Profile-programs-item-status-bar">
-                <div className="status-bar-duration">
-                  <img
-                    src={clockLogo}
-                    alt="clockLogo"
-                  />
-                  <span>
-                    12 недель
-                  </span>
-                </div>
-                <div className="status-bar-participants">
-                  <img
-                    src={peopleLogo}
-                    alt="peopleLogo"
-                  />
-                  <span>
-                    16 участников
-                  </span>
-                </div>
-              </div>
+              {(programs.length) ? (
+                programs.map(program => (
+                  <div
+                    className="Profile-programs-current-item"
+                    key={program.title}
+                  >
+                    <p className="Profile-programs-item-title">
+                      {program.title}
+                    </p>
 
-              <img src="" alt=""/>
+                    <div className="Profile-programs-item-status-bar">
+                      <div className="status-bar-duration">
+                        <img
+                          src={clockLogo}
+                          alt="clockLogo"
+                        />
+                        <span>
+                    {program.duration}
+                  </span>
+                      </div>
+                      <div className="status-bar-participants">
+                        <img
+                          src={peopleLogo}
+                          alt="peopleLogo"
+                        />
+                        <span>
+                    {program.participants}
+                  </span>
+                      </div>
+                    </div>
+
+                    {program.photo && (
+                      <div className="Profile-programs-current-item-photo-wrapper">
+                        <img src={program.photo} alt="program logo"/>
+                      </div>
+                    )}
+                  </div>
+                ))
+              ) : (
+                <div
+                  className="Profile-programs-current-item"
+                >
+                  <p className="Profile-programs-none-title">
+                    Активных программ не добавлено
+                  </p>
+                </div>
+              )}
+
             </div>
 
-          </div>
+          {(programs.filter(item => item.done).length > 0) && (
+            <div className="Profile-programs-done-container">
+              <p className="Profile-programs-title">
+                Пройденные
+              </p>
+
+              {programs.filter(item => item.done).map(doneProgram => (
+                <div
+                  className="Profile-programs-current-item"
+                  key={doneProgram.title}
+                >
+                  <div className="Profile-programs-done-cover" />
+                  <p className="Profile-programs-item-title">
+                    {doneProgram.title}
+                  </p>
+
+                  <div className="Profile-programs-item-status-bar">
+                    <div className="status-bar-duration">
+                      <img
+                        src={clockLogo}
+                        alt="clockLogo"
+                      />
+                      <span>
+                        {doneProgram.duration}
+                  </span>
+                    </div>
+                    <div className="status-bar-participants">
+                      <img
+                        src={peopleLogo}
+                        alt="peopleLogo"
+                      />
+                      <span>
+                    {doneProgram.participants}
+                  </span>
+                    </div>
+                  </div>
+
+                  {doneProgram.photo && (
+                    <div className="Profile-programs-current-item-photo-wrapper">
+                      <img src={doneProgram.photo} alt="program logo"/>
+                    </div>
+                  )}
+                </div>
+              ))
+              }
+
+            </div>
+          )}
         </div>
       </div>
     );

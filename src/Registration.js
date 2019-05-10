@@ -17,7 +17,8 @@ class Registration extends Component {
     agreeStyle: {
       'background' : 'none'
     },
-    validationInfo: ''
+    validationPhoneInfo: '',
+    validationNameInfo: ''
   };
 
   componentDidMount() {
@@ -39,10 +40,23 @@ class Registration extends Component {
     }
 
     if (phone.length !== 9) {
-      this.setState({ validationInfo: 'Номер телефона должен остоять из 9 цифр' });
+      this.setState({ validationPhoneInfo: 'Номер телефона должен остоять из 9 цифр' });
+    } else {
+      this.setState({ validationPhoneInfo: '' });
+    }
+
+    if (name.length < 5) {
+      this.setState({ validationNameInfo: 'Имя и Фамилия должны содержать не менее 2-х букв' });
+      return;
+    } else if (name.length > 4 && !/\s/.test(name)) {
+      this.setState({ validationNameInfo: 'Имя и Фамилия должны быть разделены пробелом' });
       return;
     } else {
-      this.setState({ validationInfo: '' });
+      this.setState({ validationNameInfo: '' });
+    }
+
+    if (this.state.validationPhoneInfo) {
+      return;
     }
 
     fetch('http://ll.jdev.com.ua/api/register', {
@@ -51,14 +65,14 @@ class Registration extends Component {
         'Content-Type': 'application/json'
       },
       method: 'POST',
-      body: JSON.stringify({ name, phone: `380${phone}` })
+      body: JSON.stringify({ name: name.trim(), phone: `380${phone}` })
     })
     .then(response => {
       if (response.ok) {
         this.setState({ isRegSuccess: true, regStatus: '' });
       } else if (response.status === 422) {
         this.setState({
-          validationInfo: '',
+          validationPhoneInfo: '',
           regStatus: `Пользователь с номером +380${phone} уже зарегистрирован`
         })
       }
@@ -93,7 +107,7 @@ class Registration extends Component {
   }
 
   render() {
-    let { regStatus, name, phone, isAgree, agreeStyle, validationInfo } = this.state;
+    let { regStatus, name, phone, isAgree, agreeStyle, validationNameInfo, validationPhoneInfo } = this.state;
 
     return (
       <div className="Registration">
@@ -124,8 +138,12 @@ class Registration extends Component {
           {regStatus}
         </p>}
 
-        {validationInfo && <p className="Registration-status-label">
-          {validationInfo}
+        {validationNameInfo && <p className="Registration-status-label">
+          {validationNameInfo}
+        </p>}
+
+        {validationPhoneInfo && <p className="Registration-status-label">
+          {validationPhoneInfo}
         </p>}
 
         <div className="Registration-filling-wrapper">
@@ -133,7 +151,13 @@ class Registration extends Component {
             <input
               className="Registration-name-input"
               maxLength="30"
-              onChange={event => this.inputHandler(event, 'name')}
+              onChange={event => {
+                if (/[^A-zА-я|\s|-]/.test(event.target.value)) {
+                  return;
+                }
+
+                this.inputHandler(event, 'name')
+              }}
               placeholder=" Полное Имя"
               type="text"
               value={this.state.name}

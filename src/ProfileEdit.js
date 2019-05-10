@@ -169,7 +169,7 @@ class ProfileEdit extends Component {
 
   addSocial(networkName, socialId) {
     let socialProfileLink = '';
-
+    // eslint-disable-next-line
     switch (networkName) {
       case 'facebook':
         if (/\D/.test(socialId)) {

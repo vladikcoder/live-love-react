@@ -10,7 +10,7 @@ import fetch from "cross-fetch";
 class Login extends Component {
   state = {
     phone: '',
-    validationInfo: '',
+    validationPhoneInfo: '',
     logStatus: ''
   };
 
@@ -22,10 +22,10 @@ class Login extends Component {
 
   login(phone) {
     if (phone.length !== 9) {
-      this.setState({ validationInfo: 'Номер телефона должен остоять из 9 цифр' });
+      this.setState({ validationPhoneInfo: 'Номер телефона должен остоять из 9 цифр' });
       return;
     } else {
-      this.setState({ validationInfo: '' });
+      this.setState({ validationPhoneInfo: '' });
     }
 
     fetch('http://ll.jdev.com.ua/api/login', {
@@ -45,7 +45,7 @@ class Login extends Component {
 
       } else if (response.status === 422) {
         this.setState({
-          validationInfo: '',
+          validationPhoneInfo: '',
           logStatus: `Пользователь с номером +380${phone} ещё не зарегистрирован`
         })
       }

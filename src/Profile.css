@@ -3,7 +3,7 @@
   font-size: 0.9em;
   max-width: 375px;
   margin: 0 auto;
-  min-height: 671px;
+  height: 671px;
   text-align: center;
   position: relative;
 }
@@ -136,7 +136,8 @@
 
 .Profile-programs {
   background: rgb(249, 249, 249);
-  min-height: 306px;
+  height: 306px;
+  overflow-y: scroll;
   text-align: left;
   padding-bottom: 16px;
 }

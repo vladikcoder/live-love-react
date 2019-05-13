@@ -15,6 +15,7 @@ import './Feed.css';
 
 const Feed = ({history, profile}) => {
   const {id, image, programs} = profile;
+  const baseURL = 'http://ll.jdev.com.ua/storage';
 
   const getTime = (time) => {
     let nextDate = new Date(time);
@@ -79,8 +80,12 @@ const Feed = ({history, profile}) => {
           <Link to="/profile">
             <div className="Feed-header-profile">
               <img
-                src={image ? image : avatarLogo}
-                alt="user avatar"
+                alt="avatarLogo"
+                className="Profile-user-avatar"
+                onError={event =>{
+                  event.target.src = avatarLogo
+                }}
+                src={image ? `${baseURL}/${image}` : avatarLogo}
               />
             </div>
           </Link>
@@ -159,9 +164,9 @@ const Feed = ({history, profile}) => {
           }
         </div>
       </main>
-      <footer>
+      <footer className="Feed-events-item-footer">
         <nav>
-          <div className="Feed-events-item-footer-nav">
+          <div className="Feed-events-item-footer-div">
             <div className="Feed-events-item-footer-nav-item">
               <img src={feedNavLogo} alt="feed logo"/>
               <p>Фид</p>

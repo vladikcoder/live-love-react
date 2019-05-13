@@ -1,7 +1,7 @@
 .Confirmation {
   font-family: Roboto, Helvetica, sans-serif;
   font-size: 0.9em;
-  max-width: 300px;
+  max-width: 375px;
   margin: 0 auto;
   text-align: center;
 }
@@ -104,8 +104,8 @@ input::-webkit-input-placeholder {
   color: rgb(199, 199, 204);
 }
 
-@media (max-width: 400px) {
+@media (max-width: 500px) {
   .Confirmation {
-    max-width: 400px;
+    max-width: 100%;
   }
 }

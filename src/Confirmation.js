@@ -128,10 +128,16 @@ class Confirmation extends Component {
           <div className="Confirmation-code-wrapper">
             <input
               className="Confirmation-code-input"
-              type="text"
+              type="number"
               placeholder=" Код Подтверждения"
               value={code}
-              onChange={(event) => this.inputHandler(event)}
+              onChange={event => {
+                if (event.target.value.length > 4) {
+                  event.target.value = event.target.value.slice(0, 4);
+                }
+
+                this.inputHandler(event);
+              }}
             />
           </div>
 

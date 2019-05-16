@@ -1,11 +1,13 @@
 import React, {Component} from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import fetch from "cross-fetch";
 
+import {getUserProfile} from './constsService';
+
+import liveLogo from "./img/live-logo.jpg";
 import "./Login.css";
 import "./checkbox.css";
-import liveLogo from "./img/live-logo.jpg";
-import fetch from "cross-fetch";
 
 class Login extends Component {
   state = {
@@ -15,8 +17,21 @@ class Login extends Component {
   };
 
   componentDidMount() {
+    let localPhone = localStorage.getItem('phone');
+    let localToken = localStorage.getItem('access_token');
+
     if (this.props.user.profile.id) {
       this.props.history.push("/profile");
+    }
+
+    if (localPhone && localToken) {
+      getUserProfile(localPhone, localToken)
+        .then(data => {
+        this.props.onSetToken(localToken);
+        this.props.onSetProfile(data);
+          this.props.history.push("/profile");
+        })
+        .catch(console.warn)
     }
   }
 
@@ -42,15 +57,12 @@ class Login extends Component {
         this.setState({ logStatus: '' });
         this.props.onLogin({ phone: `380${phone}` });
         this.props.history.push("/confirm");
-
       } else if (response.status === 422) {
         this.setState({
           validationPhoneInfo: '',
           logStatus: `Пользователь с номером +380${phone} ещё не зарегистрирован`
         })
       }
-
-      return response.json();
     })
     .catch(console.warn)
   }
@@ -60,6 +72,7 @@ class Login extends Component {
 
     this.setState({ phone: value })
   }
+
 
   render() {
     let { phone, validationInfo, logStatus } = this.state;
@@ -114,6 +127,12 @@ export default connect(
   dispatch => ({
     onLogin: ( data ) => {
       dispatch({ type: "LOGIN", payload: data })
-    }
+    },
+    onSetProfile: ( profile ) => {
+      dispatch({ type: "SET_PROFILE", payload: profile })
+    },
+    onSetToken: ( token ) => {
+      dispatch({ type: "SET_TOKEN", payload: token })
+    },
   }),
 )(Login);

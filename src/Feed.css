@@ -3,9 +3,13 @@
   font-size: 0.9em;
   max-width: 375px;
   margin: 0 auto;
-  min-height: 671px;
+  height: 671px;
   text-align: center;
   position: relative;
+}
+
+.Feed main {
+  max-height: 583px;
 }
 
 .Feed-header {
@@ -83,8 +87,8 @@
 
 .Feed-events-wrapper {
   border-top: 1px solid lightgrey;
-  min-height: 531px;
-  overflow-y: scroll;
+  height: 531px;
+  overflow-y: auto;
 }
 
 .Feed-events-item {
@@ -178,7 +182,7 @@
 
 .Feed-events-item-footer {
   bottom: 0;
-  position: fixed;
+  position: absolute;
   width: 375px;
 }
 
@@ -217,9 +221,11 @@
     height: 100vh;
   }
 
+  .Feed-events-wrapper {
+    height: calc(100vh - 140px);
+  }
+
   .Feed-events-item-footer {
-    bottom: -2px;
-    position: fixed;
     width: 100vw;
   }
 }

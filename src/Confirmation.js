@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import fetch from "cross-fetch";
 
+import {getUserProfile} from './constsService';
+
 import './Confirmation.css';
 import './checkbox.css';
 
@@ -16,15 +18,27 @@ class Confirmation extends Component {
   };
 
   componentDidMount() {
+    let localPhone = localStorage.getItem('phone');
+    let localToken = localStorage.getItem('access_token');
 
     if (this.props.user.profile.id) {
       this.props.history.push("/profile");
+    }
+
+    if (localPhone && localToken) {
+      getUserProfile(localPhone, localToken)
+      .then(data => {
+        this.props.onSetToken(localToken);
+        this.props.onSetProfile(data);
+        this.props.history.push("/profile");
+      })
+      .catch(console.warn)
     }
   }
 
   smsVerify(code) {
     let {phone} = this.props.user;
-
+    console.log('fetching: ', phone, code);
     fetch('http://ll.jdev.com.ua/api/user/smsverify', {
       headers: {
         'Accept': 'text/html; charset=UTF-8',
@@ -43,36 +57,27 @@ class Confirmation extends Component {
         })
       }
 
-      return response.text();
+      return response.json();
     })
     .then(data => {
 
       if (!this.state.isWrong) {
-        this.props.onSetToken(data);
-        this.getUserProfile(phone);
+        const {access_token} = data;
+
+        localStorage.setItem('phone', phone);
+        localStorage.setItem('access_token', access_token);
+
+        this.props.onSetToken(access_token);
+        getUserProfile(phone, access_token)
+          .then(data => {
+            this.props.onSetProfile(data);
+            this.props.history.push("/profile");
+          })
+          .catch(console.warn);
       } else {
         console.log(data);
       }
     }).catch(console.warn)
-  }
-
-  getUserProfile(phone) {
-    let { access_token } = this.props.user;
-
-    fetch(`http://ll.jdev.com.ua/api/users/${phone}`, {
-      headers: {
-        'Accept': 'text/html; charset=UTF-8',
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${access_token}`
-      },
-      method: 'GET'
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.props.onSetProfile(data);
-        this.props.history.push("/profile");
-      })
-      .catch(console.warn)
   }
 
   sendAgain() {

@@ -2,7 +2,10 @@ import React, {Component} from 'react';
 import { Link } from "react-router-dom";
 import {connect} from 'react-redux';
 
+import {AVATAR_BASE_URL, getUserProfile} from './constsService';
+
 import './Profile.css';
+
 import avatarLogo from './img/avatar.png';
 import emptyLogo from './img/empty.png';
 import facebookLogo from './img/fb.png';
@@ -12,15 +15,22 @@ import editLogo from './img/edit.png';
 import clockLogo from './img/clock.png';
 import peopleLogo from './img/people.png';
 
-
 class Profile extends Component {
+  userDataUpdate() {
+    let {phone} = this.props.user.profile;
+    let {access_token} = this.props.user;
+
+    getUserProfile(phone, access_token)
+    .then(this.props.onSetProfile)
+    .catch(console.warn)
+  }
+
   formatPhone(phone) {
     return `+${phone.slice(0, 3)} (${phone.slice(3, 5)}) ${phone.slice(5, 8)} ${phone.slice(8, 10)} ${phone.slice(10, 12)}`;
   }
 
   render() {
-    let baseURL = 'http://ll.jdev.com.ua/storage';
-    let {id, name, phone, image, programs, facebook, instagram, strava} = this.props.user.profile;
+    const {id, name, phone, image, programs, facebook, instagram, strava} = this.props.user.profile;
 
     if (!id) {
       this.props.history.push('/');
@@ -30,7 +40,7 @@ class Profile extends Component {
       <div className="Profile">
         <div className="Profile-fade-header">
           <Link to="/feed">
-            <span>×</span>
+            <span onClick={() => this.userDataUpdate()}>×</span>
           </Link>
         </div>
 
@@ -41,10 +51,10 @@ class Profile extends Component {
             <img
               alt="avatarLogo"
               className="Profile-user-avatar"
-              onError={event =>{
+              onError={event => {
                 event.target.src = avatarLogo
               }}
-              src={image ? `${baseURL}/${image}` : avatarLogo}
+              src={image ? `${AVATAR_BASE_URL}/${image}` : avatarLogo}
             />
           )
         }
@@ -247,5 +257,9 @@ export default connect(
   state => ({
     user: {...state.user}
   }),
-  dispatch => ({}),
+  dispatch => ({
+    onSetProfile: ( profile ) => {
+      dispatch({ type: "SET_PROFILE", payload: profile })
+    }
+  }),
 )(Profile);

@@ -2,6 +2,10 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import {connect} from 'react-redux';
 
+import {AVATAR_BASE_URL, getUserProfile} from './constsService';
+
+import './Feed.css';
+
 import avatarLogo from './img/avatar.png';
 import feedLogo from './img/live-logo-feed.JPG';
 import locationLogo from './img/location.png';
@@ -11,11 +15,17 @@ import notifsNavLogo from './img/notifs.png';
 import askNavLogo from './img/ask.png';
 import otherNavLogo from './img/other.png';
 
-import './Feed.css';
+const Feed = ({history, user, onSetProfile}) => {
+  const { id, image, programs } = user.profile;
 
-const Feed = ({history, profile}) => {
-  const {id, image, programs} = profile;
-  const baseURL = 'http://ll.jdev.com.ua/storage';
+  const userDataUpdate = () => {
+    let { access_token } = user;
+    let { phone } = user.profile;
+
+    getUserProfile(phone, access_token)
+    .then(onSetProfile)
+    .catch(console.warn)
+  };
 
   const getTime = (time) => {
     let nextDate = new Date(time);
@@ -34,6 +44,7 @@ const Feed = ({history, profile}) => {
 
     return `${hours}:${minutes}`;
   };
+
   const getDate = (time) => {
     let currentDate = new Date();
     let nextDate = new Date(time);
@@ -78,14 +89,17 @@ const Feed = ({history, profile}) => {
         <div className="Feed-header">
           <img src={feedLogo} alt="feed logo"/>
           <Link to="/profile">
-            <div className="Feed-header-profile">
+            <div
+              className="Feed-header-profile"
+              onClick={() => userDataUpdate()}
+            >
               <img
                 alt="avatarLogo"
                 className="Profile-user-avatar"
                 onError={event =>{
                   event.target.src = avatarLogo
                 }}
-                src={image ? `${baseURL}/${image}` : avatarLogo}
+                src={image ? `${AVATAR_BASE_URL}/${image}` : avatarLogo}
               />
             </div>
           </Link>
@@ -192,7 +206,11 @@ const Feed = ({history, profile}) => {
 
 export default connect(
   state => ({
-    profile: {...state.user.profile}
+    user: {...state.user}
   }),
-  dispatch => ({}),
+  dispatch => ({
+    onSetProfile: (profile) => {
+      dispatch({type: 'SET_PROFILE', payload: profile});
+    }
+  }),
 )(Feed);

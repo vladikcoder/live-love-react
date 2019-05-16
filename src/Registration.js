@@ -1,11 +1,15 @@
 import React, {Component} from 'react';
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import fetch from "cross-fetch";
+
+import {getUserProfile} from './constsService';
 
 import "./Registration.css";
 import "./checkbox.css";
+
 import backArrow from "./img/back.png";
-import fetch from "cross-fetch";
+
 
 class Registration extends Component {
   state = {
@@ -22,8 +26,21 @@ class Registration extends Component {
   };
 
   componentDidMount() {
+    let localPhone = localStorage.getItem('phone');
+    let localToken = localStorage.getItem('access_token');
+
     if (this.props.user.profile.id) {
       this.props.history.push("/profile");
+    }
+
+    if (localPhone && localToken) {
+      getUserProfile(localPhone, localToken)
+        .then(data => {
+          this.props.onSetToken(localToken);
+          this.props.onSetProfile(data);
+          this.props.history.push("/profile");
+        })
+        .catch(console.warn)
     }
 
     this.agreeHandler = this.agreeHandler.bind(this);
@@ -104,6 +121,30 @@ class Registration extends Component {
       agreeStyle: {
         'background' : 'none'
       }}))
+  }
+
+  getUserProfile(phone, access_token) {
+    fetch(`http://ll.jdev.com.ua/api/users/${phone}`, {
+      headers: {
+        'Accept': 'text/html; charset=UTF-8',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${access_token}`
+      },
+      method: 'GET'
+    })
+      .then(response => {
+        if (response.status === 422 || response.status === 500) {
+          localStorage.removeItem('phone');
+          localStorage.removeItem('access_token');
+        } else if (response.ok) {
+          return response.json()
+        }
+      })
+      .then(data => {
+        this.props.onSetProfile(data);
+        this.props.history.push("/profile");
+      })
+      .catch(console.warn)
   }
 
   render() {
@@ -211,6 +252,12 @@ export default connect(
   dispatch => ({
     onRegister: (user) => {
       dispatch({ type: "SET_USER", payload: {...user, profile: {}} })
-    }
+    },
+    onSetProfile: ( profile ) => {
+      dispatch({ type: "SET_PROFILE", payload: profile })
+    },
+    onSetToken: ( token ) => {
+      dispatch({ type: "SET_TOKEN", payload: token })
+    },
   }),
 )(Registration);

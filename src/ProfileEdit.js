@@ -1,14 +1,16 @@
 import React, {Component} from 'react';
-// import { Link } from "react-router-dom";
 import {connect} from 'react-redux';
+import fetch from 'cross-fetch';
+
+import {AVATAR_BASE_URL} from './constsService';
 
 import './ProfileEdit.css';
+
 import avatarLogo from './img/avatar.png';
 import emptyLogo from './img/empty.png';
 import facebookLogo from './img/fb.png';
 import instagramLogo from './img/inst.png';
 import stravaLogo from './img/strava.png';
-import fetch from 'cross-fetch';
 
 class ProfileEdit extends Component {
   state = {
@@ -47,7 +49,7 @@ class ProfileEdit extends Component {
     let {localProfile} = this.state;
     let {access_token} = this.props.user;
 
-    let editFields = this.isAnyChangesMade();
+    let editFields = this.getChangedFields();
 
     if (editFields.length) {
       let data = new FormData();
@@ -55,8 +57,6 @@ class ProfileEdit extends Component {
       for (let field of editFields) {
         data.append(field, localProfile[field]);
       }
-
-      console.log('fetching...', data.get('image'));
 
       fetch(`http://ll.jdev.com.ua/api/users/edit/${id}`, {
         headers: {
@@ -68,12 +68,12 @@ class ProfileEdit extends Component {
         body: data
       }).then(response => {
         if (response.ok) {
-          this.setState({isEditSuccess: true});
           return response.json();
         }
       }).then(updatedProfile => {
-        console.log('new_profile: ', updatedProfile.data);
-        this.props.onSetProfile(updatedProfile.data);
+
+        console.log('new_profile: ', updatedProfile);
+        this.props.onSetProfile(updatedProfile);
         shouldRedirect &&
         this.props.history.push('/profile');
       }).catch(console.warn);
@@ -83,7 +83,7 @@ class ProfileEdit extends Component {
     }
   }
 
-  isAnyChangesMade() {
+  getChangedFields() {
     let editableFields = ['name', 'phone', 'biography', 'position', 'image', 'facebook', 'instagram', 'strava'];
     let {localProfile} = this.state;
     let {profile} = this.props.user;
@@ -214,13 +214,10 @@ class ProfileEdit extends Component {
     let {id} = this.props.user.profile;
     let {name, phone, position, biography, image, facebook, instagram, strava} = this.state.localProfile;
     let {charCount, pendingSocial, pendingSocialQuery, showModal} = this.state;
-    let baseURL = 'http://ll.jdev.com.ua/storage';
 
     if (!id) {
       this.props.history.push('/');
     }
-
-    console.log(this.state);
 
     return (
       <div className="ProfileEdit">
@@ -277,7 +274,7 @@ class ProfileEdit extends Component {
                 onError={event =>{
                   event.target.src = avatarLogo
                 }}
-                src={image ? `${baseURL}/${image}` : avatarLogo}
+                src={image ? `${AVATAR_BASE_URL}/${image}` : avatarLogo}
               />
             )
           }

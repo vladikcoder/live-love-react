@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import fetch from "cross-fetch";
 
+import {onLogin, onSetProfile, onSetToken} from './store/actions';
 import {getUserProfile} from './constsService';
 
 import liveLogo from "./img/live-logo.jpg";
@@ -17,18 +18,17 @@ class Login extends Component {
   };
 
   componentDidMount() {
-    let localPhone = localStorage.getItem('phone');
     let localToken = localStorage.getItem('access_token');
 
     if (this.props.user.profile.id) {
       this.props.history.push("/profile");
     }
 
-    if (localPhone && localToken) {
-      getUserProfile(localPhone, localToken)
+    if (localToken) {
+      getUserProfile(localToken)
         .then(data => {
         this.props.onSetToken(localToken);
-        this.props.onSetProfile(data);
+        this.props.onSetProfile(data.success);
           this.props.history.push("/profile");
         })
         .catch(console.warn)
@@ -124,15 +124,9 @@ export default connect(
   state => ({
     user: {...state.user}
   }),
-  dispatch => ({
-    onLogin: ( data ) => {
-      dispatch({ type: "LOGIN", payload: data })
-    },
-    onSetProfile: ( profile ) => {
-      dispatch({ type: "SET_PROFILE", payload: profile })
-    },
-    onSetToken: ( token ) => {
-      dispatch({ type: "SET_TOKEN", payload: token })
-    },
-  }),
+  {
+    onLogin,
+    onSetProfile,
+    onSetToken
+  }
 )(Login);

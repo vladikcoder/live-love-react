@@ -18,18 +18,17 @@ class Confirmation extends Component {
   };
 
   componentDidMount() {
-    let localPhone = localStorage.getItem('phone');
     let localToken = localStorage.getItem('access_token');
 
     if (this.props.user.profile.id) {
       this.props.history.push("/profile");
     }
 
-    if (localPhone && localToken) {
-      getUserProfile(localPhone, localToken)
+    if (localToken) {
+      getUserProfile(localToken)
       .then(data => {
         this.props.onSetToken(localToken);
-        this.props.onSetProfile(data);
+        this.props.onSetProfile(data.success);
         this.props.history.push("/profile");
       })
       .catch(console.warn)
@@ -41,7 +40,7 @@ class Confirmation extends Component {
     console.log('fetching: ', phone, code);
     fetch('http://ll.jdev.com.ua/api/user/smsverify', {
       headers: {
-        'Accept': 'text/html; charset=UTF-8',
+        'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
       method: 'POST',
@@ -64,13 +63,12 @@ class Confirmation extends Component {
       if (!this.state.isWrong) {
         const {access_token} = data;
 
-        localStorage.setItem('phone', phone);
         localStorage.setItem('access_token', access_token);
 
         this.props.onSetToken(access_token);
-        getUserProfile(phone, access_token)
+        getUserProfile(access_token)
           .then(data => {
-            this.props.onSetProfile(data);
+            this.props.onSetProfile(data.success);
             this.props.history.push("/profile");
           })
           .catch(console.warn);

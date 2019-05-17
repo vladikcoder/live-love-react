@@ -26,18 +26,17 @@ class Registration extends Component {
   };
 
   componentDidMount() {
-    let localPhone = localStorage.getItem('phone');
     let localToken = localStorage.getItem('access_token');
 
     if (this.props.user.profile.id) {
       this.props.history.push("/profile");
     }
 
-    if (localPhone && localToken) {
-      getUserProfile(localPhone, localToken)
+    if (localToken) {
+      getUserProfile(localToken)
         .then(data => {
           this.props.onSetToken(localToken);
-          this.props.onSetProfile(data);
+          this.props.onSetProfile(data.success);
           this.props.history.push("/profile");
         })
         .catch(console.warn)

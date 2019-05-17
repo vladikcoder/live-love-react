@@ -45,7 +45,6 @@ class ProfileEdit extends Component {
 
   editUpdater(shouldRedirect) {
     // eslint-disable-next-line
-    let {id} = this.state.localProfile;
     let {localProfile} = this.state;
     let {access_token} = this.props.user;
 
@@ -58,7 +57,7 @@ class ProfileEdit extends Component {
         data.append(field, localProfile[field]);
       }
 
-      fetch(`http://ll.jdev.com.ua/api/users/edit/${id}`, {
+      fetch(`http://ll.jdev.com.ua/api/users/edit`, {
         headers: {
           'Accept': 'application/json',
           // 'Content-Type': 'multipart/form-data',

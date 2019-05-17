@@ -2,9 +2,10 @@ import React, {Component} from 'react';
 import { Link } from "react-router-dom";
 import {connect} from 'react-redux';
 
-import {AVATAR_BASE_URL, getUserProfile} from './constsService';
+import {onSetProfile} from '../store/actions';
+import {AVATAR_BASE_URL, getUserProfile} from '../constsService';
 
-import './Profile.css';
+import './styles/Profile.css';
 
 import avatarLogo from './img/avatar.png';
 import emptyLogo from './img/empty.png';
@@ -251,15 +252,16 @@ class Profile extends Component {
   }
 
 
+}
+
+const mapStateToProps = state => {
+  return {
+    user: {...state.user}
+  }
 };
 
-export default connect(
-  state => ({
-    user: {...state.user}
-  }),
-  dispatch => ({
-    onSetProfile: ( profile ) => {
-      dispatch({ type: "SET_PROFILE", payload: profile })
-    }
-  }),
-)(Profile);
+const mapDispatchToProps = {
+  onSetProfile
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

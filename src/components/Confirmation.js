@@ -2,10 +2,11 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import fetch from "cross-fetch";
 
-import {getUserProfile} from './constsService';
+import {onSetProfile, onSetToken} from '../store/actions';
+import {getUserProfile} from '../constsService';
 
-import './Confirmation.css';
-import './checkbox.css';
+import './styles/Confirmation.css';
+import './styles/checkbox.css';
 
 import backArrow from './img/back.png';
 
@@ -27,9 +28,11 @@ class Confirmation extends Component {
     if (localToken) {
       getUserProfile(localToken)
       .then(data => {
-        this.props.onSetToken(localToken);
-        this.props.onSetProfile(data.success);
-        this.props.history.push("/profile");
+        if (data.success) {
+          this.props.onSetToken(localToken);
+          this.props.onSetProfile(data.success[0]);
+          this.props.history.push("/profile");
+        }
       })
       .catch(console.warn)
     }
@@ -68,7 +71,7 @@ class Confirmation extends Component {
         this.props.onSetToken(access_token);
         getUserProfile(access_token)
           .then(data => {
-            this.props.onSetProfile(data.success);
+            this.props.onSetProfile(data.success[0]);
             this.props.history.push("/profile");
           })
           .catch(console.warn);
@@ -171,19 +174,17 @@ class Confirmation extends Component {
     );
   }
 
+}
+
+const mapStateToProps = state => {
+  return {
+    user: {...state.user}
+  }
 };
 
-export default connect(
-  state => ({
-    user: {...state.user}
-  }),
-  dispatch => ({
-    onSetToken: ( token ) => {
-      dispatch({ type: "SET_TOKEN", payload: token })
-    },
+const mapDispatchToProps = {
+  onSetProfile,
+  onSetToken
+};
 
-    onSetProfile: ( profile ) => {
-      dispatch({ type: "SET_PROFILE", payload: profile })
-    }
-  }),
-)(Confirmation);
+export default connect(mapStateToProps, mapDispatchToProps)(Confirmation);

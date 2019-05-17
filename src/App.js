@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
 import { connect } from "react-redux";
 
-import Registration from "./Registration";
-import Confirmation from "./Confirmation";
-import Login from "./Login";
-import Profile from "./Profile";
-import ProfileEdit from "./ProfileEdit";
-import Feed from "./Feed";
+import Registration from "./components/Registration";
+import Confirmation from "./components/Confirmation";
+import Login from "./components/Login";
+import Profile from "./components/Profile";
+import ProfileEdit from "./components/ProfileEdit";
+import Feed from "./components/Feed";
 
 class App extends Component {
 

@@ -2,9 +2,10 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import fetch from 'cross-fetch';
 
-import {AVATAR_BASE_URL} from './constsService';
+import {onSetProfile} from '../store/actions';
+import {AVATAR_BASE_URL} from '../constsService';
 
-import './ProfileEdit.css';
+import './styles/ProfileEdit.css';
 
 import avatarLogo from './img/avatar.png';
 import emptyLogo from './img/empty.png';
@@ -88,9 +89,7 @@ class ProfileEdit extends Component {
     let {profile} = this.props.user;
 
     for (let field of editableFields) {
-      if (localProfile[field] !== profile[field]) {
-        console.log('Changes on: ', field);
-      } else {
+      if (localProfile[field] === profile[field]) {
         editableFields = editableFields.filter(item => item !== field);
       }
     }
@@ -137,7 +136,7 @@ class ProfileEdit extends Component {
   removeAvatar() {
     this.setState(prevState => {
       let newLocalProfile = {...prevState.localProfile};
-      newLocalProfile.image = '';
+      newLocalProfile.image = null;
 
       return {localProfile: newLocalProfile};
     });
@@ -203,7 +202,7 @@ class ProfileEdit extends Component {
   removeSocial(networkName) {
     this.setState(prevState => {
       let newProfile = {...prevState.localProfile};
-      newProfile[networkName] = '';
+      newProfile[networkName] = null;
 
       return {localProfile: newProfile}
     })
@@ -425,13 +424,14 @@ class ProfileEdit extends Component {
 
 }
 
-export default connect(
-  state => ({
+const mapStateToProps = state => {
+  return {
     user: {...state.user}
-  }),
-  dispatch => ({
-    onSetProfile: (profile) => {
-      dispatch({type: 'SET_PROFILE', payload: profile});
-    }
-  }),
-)(ProfileEdit);
+  }
+};
+
+const mapDispatchToProps = {
+  onSetProfile
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileEdit);

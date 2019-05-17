@@ -2,9 +2,10 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import {connect} from 'react-redux';
 
-import {AVATAR_BASE_URL, getUserProfile} from './constsService';
+import {onSetProfile} from '../store/actions';
+import {AVATAR_BASE_URL, getUserProfile} from '../constsService';
 
-import './Feed.css';
+import './styles/Feed.css';
 
 import avatarLogo from './img/avatar.png';
 import feedLogo from './img/live-logo-feed.JPG';
@@ -204,13 +205,14 @@ const Feed = ({history, user, onSetProfile}) => {
   )
 };
 
-export default connect(
-  state => ({
+const mapStateToProps = state => {
+  return {
     user: {...state.user}
-  }),
-  dispatch => ({
-    onSetProfile: (profile) => {
-      dispatch({type: 'SET_PROFILE', payload: profile});
-    }
-  }),
-)(Feed);
+  }
+};
+
+const mapDispatchToProps = {
+  onSetProfile
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Feed);

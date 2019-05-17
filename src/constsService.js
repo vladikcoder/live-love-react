@@ -12,10 +12,10 @@ export const getUserProfile = (access_token) => {
     method: 'GET'
   })
   .then(response => {
-    if (response.status === 401) {
-      localStorage.removeItem('access_token');
-    } else if (response.ok) {
+    if (response.ok) {
       return response.json()
+    } else {
+      localStorage.removeItem('access_token');
     }
   })
 };

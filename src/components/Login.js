@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import fetch from "cross-fetch";
 
-import {onLogin, onSetProfile, onSetToken} from './store/actions';
-import {getUserProfile} from './constsService';
+import {onLogin, onSetProfile, onSetToken} from '../store/actions';
+import {getUserProfile} from '../constsService';
 
 import liveLogo from "./img/live-logo.jpg";
-import "./Login.css";
-import "./checkbox.css";
+import "./styles/Login.css";
+import "./styles/checkbox.css";
 
 class Login extends Component {
   state = {
@@ -27,9 +27,11 @@ class Login extends Component {
     if (localToken) {
       getUserProfile(localToken)
         .then(data => {
-        this.props.onSetToken(localToken);
-        this.props.onSetProfile(data.success);
-          this.props.history.push("/profile");
+          if (data.success) {
+            this.props.onSetToken(localToken);
+            this.props.onSetProfile(data.success[0]);
+            this.props.history.push("/profile");
+          }
         })
         .catch(console.warn)
     }
@@ -118,15 +120,18 @@ class Login extends Component {
   }
 
 
+}
+
+const mapStateToProps = state => {
+  return {
+    user: {...state.user}
+  }
 };
 
-export default connect(
-  state => ({
-    user: {...state.user}
-  }),
-  {
-    onLogin,
-    onSetProfile,
-    onSetToken
-  }
-)(Login);
+const mapDispatchToProps = {
+  onLogin,
+  onSetProfile,
+  onSetToken
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

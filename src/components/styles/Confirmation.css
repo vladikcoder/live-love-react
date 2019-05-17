@@ -70,6 +70,17 @@
   width: 100%;
 }
 
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
 .Confirmation-status-wrapper {
   color: rgb(199, 199, 204);
   font-size: 0.7em;

@@ -3,10 +3,11 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import fetch from "cross-fetch";
 
-import {getUserProfile} from './constsService';
+import {onRegister, onSetProfile, onSetToken} from '../store/actions';
+import {getUserProfile} from '../constsService';
 
-import "./Registration.css";
-import "./checkbox.css";
+import "./styles/Registration.css";
+import "./styles/checkbox.css";
 
 import backArrow from "./img/back.png";
 
@@ -35,9 +36,11 @@ class Registration extends Component {
     if (localToken) {
       getUserProfile(localToken)
         .then(data => {
-          this.props.onSetToken(localToken);
-          this.props.onSetProfile(data.success);
-          this.props.history.push("/profile");
+          if (data.success) {
+            this.props.onSetToken(localToken);
+            this.props.onSetProfile(data.success);
+            this.props.history.push("/profile");
+          }
         })
         .catch(console.warn)
     }
@@ -242,21 +245,18 @@ class Registration extends Component {
       </div>
     );
   }
+}
+
+const mapStateToProps = state => {
+  return {
+    user: {...state.user}
+  }
 };
 
-export default connect(
-  state => ({
-    user: {...state.user}
-  }),
-  dispatch => ({
-    onRegister: (user) => {
-      dispatch({ type: "SET_USER", payload: {...user, profile: {}} })
-    },
-    onSetProfile: ( profile ) => {
-      dispatch({ type: "SET_PROFILE", payload: profile })
-    },
-    onSetToken: ( token ) => {
-      dispatch({ type: "SET_TOKEN", payload: token })
-    },
-  }),
-)(Registration);
+const mapDispatchToProps = {
+  onRegister,
+  onSetProfile,
+  onSetToken
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Registration);

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import fetch from "cross-fetch";
 
-import {onLogin, onSetProfile, onSetToken} from '../store/actions';
+import {onLogin, onSetProfile} from '../store/actions';
 import {getUserProfile} from '../constsService';
 
 import liveLogo from "./img/live-logo.jpg";
@@ -28,7 +28,6 @@ class Login extends Component {
       getUserProfile(localToken)
         .then(data => {
           if (data.success) {
-            this.props.onSetToken(localToken);
             this.props.onSetProfile(data.success[0]);
             this.props.history.push("/profile");
           }
@@ -130,8 +129,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   onLogin,
-  onSetProfile,
-  onSetToken
+  onSetProfile
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

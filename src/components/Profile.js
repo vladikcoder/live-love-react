@@ -18,10 +18,9 @@ import peopleLogo from './img/people.png';
 
 class Profile extends Component {
   userDataUpdate() {
-    let {phone} = this.props.user.profile;
-    let {access_token} = this.props.user;
+    let access_token = localStorage.getItem('access_token');
 
-    getUserProfile(phone, access_token)
+    getUserProfile( access_token)
     .then(this.props.onSetProfile)
     .catch(console.warn)
   }

@@ -47,8 +47,7 @@ class ProfileEdit extends Component {
   editUpdater(shouldRedirect) {
     // eslint-disable-next-line
     let {localProfile} = this.state;
-    let {access_token} = this.props.user;
-
+    let access_token = localStorage.getItem('access_token');
     let editFields = this.getChangedFields();
 
     if (editFields.length) {

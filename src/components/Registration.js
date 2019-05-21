@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import fetch from "cross-fetch";
 
-import {onRegister, onSetProfile, onSetToken} from '../store/actions';
+import {onRegister, onSetProfile} from '../store/actions';
 import {getUserProfile} from '../constsService';
 
 import "./styles/Registration.css";
@@ -37,7 +37,6 @@ class Registration extends Component {
       getUserProfile(localToken)
         .then(data => {
           if (data.success) {
-            this.props.onSetToken(localToken);
             this.props.onSetProfile(data.success);
             this.props.history.push("/profile");
           }
@@ -255,8 +254,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   onRegister,
-  onSetProfile,
-  onSetToken
+  onSetProfile
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Registration);

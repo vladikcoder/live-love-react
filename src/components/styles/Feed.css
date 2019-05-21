@@ -12,9 +12,14 @@
   max-height: 583px;
 }
 
+.pull-to-refresh-material__control {
+  z-index: 9;
+}
+
 .Feed-header {
   height: 44px;
   position: relative;
+  z-index: 0;
 }
 
 .Feed-header img {

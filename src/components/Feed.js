@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from "react-router-dom";
 import {connect} from 'react-redux';
+import pullToRefresh from 'mobile-pull-to-refresh'
+import ptrAnimatesMaterial from 'mobile-pull-to-refresh/dist/styles/material/animates'
 
 import {onSetProfile} from '../store/actions';
 import {AVATAR_BASE_URL, getUserProfile} from '../constsService';
 
+import 'mobile-pull-to-refresh/dist/styles/material/style.css'
 import './styles/Feed.css';
 
 import avatarLogo from './img/avatar.png';
@@ -19,12 +22,29 @@ import otherNavLogo from './img/other.png';
 const Feed = ({history, user, onSetProfile}) => {
   const { id, image, programs } = user.profile;
 
-  const userDataUpdate = () => {
-    let { access_token } = user;
-    let { phone } = user.profile;
+  useEffect(() => {
+    pullToRefresh({
+      container: document.querySelector('.Feed'),
+      animates: ptrAnimatesMaterial,
+      refresh() {
+        return new Promise(resolve => {
+          setTimeout(() => userDataUpdate(resolve), 2000)
+        })
+      }
+    });
+  });
 
-    getUserProfile(phone, access_token)
-    .then(onSetProfile)
+  const userDataUpdate = (resolve) => {
+    let access_token = localStorage.getItem('access_token');
+
+    getUserProfile(access_token)
+    .then(() => {
+      onSetProfile();
+
+      if (resolve) {
+        resolve();
+      }
+    })
     .catch(console.warn)
   };
 
@@ -85,7 +105,18 @@ const Feed = ({history, user, onSetProfile}) => {
   }
 
   return (
-    <div className="Feed">
+    <div className="Feed ">
+      <div className="pull-to-refresh-material__control">
+        <svg className="pull-to-refresh-material__icon" fill="#4285f4" width="24" height="24" viewBox="0 0 24 24">
+          <path
+            d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+          <path d="M0 0h24v24H0z" fill="none"/>
+        </svg>
+
+        <svg className="pull-to-refresh-material__spinner" width="24" height="24" viewBox="25 25 50 50">
+          <circle className="pull-to-refresh-material__path" cx="50" cy="50" r="20" fill="none" stroke="#4285f4"/>
+        </svg>
+      </div>
       <header>
         <div className="Feed-header">
           <img src={feedLogo} alt="feed logo"/>

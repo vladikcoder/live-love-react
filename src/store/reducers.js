@@ -1,10 +1,9 @@
-import {LOGIN, SET_PROFILE, SET_TOKEN, SET_USER} from './actions';
+import {LOGIN, SET_PROFILE, SET_USER} from './actions';
 
 const initialState = {
   user: {
     name: '',
     phone: '',
-    access_token: '',
     profile: {
       "id":"",
       "name":"",
@@ -56,12 +55,6 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         user: {...state.user, profile: { ...state.user.profile, ...action.payload} }
-      };
-
-    case SET_TOKEN:
-      return {
-        ...state,
-        user: {...state.user, access_token: action.payload}
       };
 
     case SET_USER:

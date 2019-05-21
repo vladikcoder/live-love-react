@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "cross-fetch": "^3.0.2",
+    "mobile-pull-to-refresh": "^0.2.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.0.2",

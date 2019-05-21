@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import fetch from "cross-fetch";
 
-import {onSetProfile, onSetToken} from '../store/actions';
+import {onSetProfile} from '../store/actions';
 import {getUserProfile} from '../constsService';
 
 import './styles/Confirmation.css';
@@ -29,7 +29,6 @@ class Confirmation extends Component {
       getUserProfile(localToken)
       .then(data => {
         if (data.success) {
-          this.props.onSetToken(localToken);
           this.props.onSetProfile(data.success[0]);
           this.props.history.push("/profile");
         }
@@ -68,7 +67,7 @@ class Confirmation extends Component {
 
         localStorage.setItem('access_token', access_token);
 
-        this.props.onSetToken(access_token);
+        // this.props.onSetToken(access_token);
         getUserProfile(access_token)
           .then(data => {
             this.props.onSetProfile(data.success[0]);
@@ -183,8 +182,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  onSetProfile,
-  onSetToken
+  onSetProfile
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Confirmation);

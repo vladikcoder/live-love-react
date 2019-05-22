@@ -40,10 +40,10 @@ class Confirmation extends Component {
   smsVerify(code) {
     let {phone} = this.props.user;
     console.log('fetching: ', phone, code);
-    fetch('http://ll.jdev.com.ua/api/user/smsverify', {
+    fetch('http://ll.jdev.com.ua/api/smsverify', {
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        'Accept': 'application/json;v=1.0',
+        'Content-Type': 'application/json'
       },
       method: 'POST',
       body: JSON.stringify({ phone, code })
@@ -61,13 +61,10 @@ class Confirmation extends Component {
       return response.json();
     })
     .then(data => {
-
       if (!this.state.isWrong) {
         const {access_token} = data;
-
         localStorage.setItem('access_token', access_token);
 
-        // this.props.onSetToken(access_token);
         getUserProfile(access_token)
           .then(data => {
             this.props.onSetProfile(data.success[0]);
@@ -85,7 +82,7 @@ class Confirmation extends Component {
 
     fetch('http://ll.jdev.com.ua/api/login', {
       headers: {
-        'Accept': 'text/plain;charset=UTF-8',
+        'Accept': 'text/plain;charset=UTF-8;v=1.0',
         'Content-Type': 'application/json'
       },
       method: 'POST',

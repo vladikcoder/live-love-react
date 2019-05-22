@@ -46,7 +46,7 @@ class Login extends Component {
 
     fetch('http://ll.jdev.com.ua/api/login', {
       headers: {
-        'Accept': 'text/plain;charset=UTF-8',
+        'Accept': 'application/json;v=1.0',
         'Content-Type': 'application/json'
       },
       method: 'POST',
@@ -58,7 +58,7 @@ class Login extends Component {
         this.setState({ logStatus: '' });
         this.props.onLogin({ phone: `380${phone}` });
         this.props.history.push("/confirm");
-      } else if (response.status === 422) {
+      } else if (response.status === 401) {
         this.setState({
           validationPhoneInfo: '',
           logStatus: `Пользователь с номером +380${phone} ещё не зарегистрирован`

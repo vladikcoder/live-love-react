@@ -79,7 +79,7 @@ class Registration extends Component {
 
     fetch('http://ll.jdev.com.ua/api/register', {
       headers: {
-        'Accept': 'text/plain;charset=UTF-8',
+        'Accept': 'application/json;v=1.0',
         'Content-Type': 'application/json'
       },
       method: 'POST',
@@ -122,30 +122,6 @@ class Registration extends Component {
       agreeStyle: {
         'background' : 'none'
       }}))
-  }
-
-  getUserProfile(phone, access_token) {
-    fetch(`http://ll.jdev.com.ua/api/users/${phone}`, {
-      headers: {
-        'Accept': 'text/html; charset=UTF-8',
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${access_token}`
-      },
-      method: 'GET'
-    })
-      .then(response => {
-        if (response.status === 422 || response.status === 500) {
-          localStorage.removeItem('phone');
-          localStorage.removeItem('access_token');
-        } else if (response.ok) {
-          return response.json()
-        }
-      })
-      .then(data => {
-        this.props.onSetProfile(data);
-        this.props.history.push("/profile");
-      })
-      .catch(console.warn)
   }
 
   render() {

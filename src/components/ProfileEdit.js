@@ -57,11 +57,14 @@ class ProfileEdit extends Component {
         data.append(field, localProfile[field]);
       }
 
-      fetch(`http://ll.jdev.com.ua/api/users/edit`, {
+      data.append('_method', 'PUT');
+
+      fetch(`http://ll.jdev.com.ua/api/users`, {
         headers: {
-          'Accept': 'application/json',
+          'Accept': 'application/json;v=1.0',
+          'Authorization': `Bearer ${access_token}`,
+          // 'Content-Type': 'application/x-www-form-urlencoded',
           // 'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${access_token}`
         },
         method: 'POST',
         body: data
@@ -73,6 +76,8 @@ class ProfileEdit extends Component {
 
         console.log('new_profile: ', updatedProfile);
         this.props.onSetProfile(updatedProfile);
+        this.setState({localProfile: updatedProfile});
+
         shouldRedirect &&
         this.props.history.push('/profile');
       }).catch(console.warn);
@@ -201,7 +206,7 @@ class ProfileEdit extends Component {
   removeSocial(networkName) {
     this.setState(prevState => {
       let newProfile = {...prevState.localProfile};
-      newProfile[networkName] = null;
+      newProfile[networkName] = '';
 
       return {localProfile: newProfile}
     })

@@ -19,3 +19,18 @@ export const getUserProfile = (access_token) => {
     }
   })
 };
+
+export const getCorrectForm = (wordCount, firstForm, secondForm, thirdForm) => {
+    switch (wordCount.toString().slice(-1)) {
+        case '1':
+            return `${wordCount} ${firstForm}`;
+
+        case '2':
+        case '3':
+        case '4':
+            return `${wordCount} ${secondForm}`;
+
+        default:
+            return `${wordCount} ${thirdForm}`;
+    }
+}

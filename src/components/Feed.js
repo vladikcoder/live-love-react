@@ -5,7 +5,7 @@ import pullToRefresh from 'mobile-pull-to-refresh'
 import ptrAnimatesMaterial from 'mobile-pull-to-refresh/dist/styles/material/animates'
 
 import {onSetProfile} from '../store/actions';
-import {AVATAR_BASE_URL, getUserProfile} from '../constsService';
+import {AVATAR_BASE_URL, getUserProfile, getCorrectForm} from '../constsService';
 
 import 'mobile-pull-to-refresh/dist/styles/material/style.css'
 import './styles/Feed.css';
@@ -159,10 +159,10 @@ const Feed = ({history, user, onSetProfile}) => {
                   <div className="Feed-events-item-header">
                     <div className="Feed-events-item-header-date">
                       <div className="Feed-events-item-header-date-time">
-                        {getTime(program.next_date)}
+                        {getTime(program.nextDate)}
                       </div>
                       <div className="Feed-events-item-header-date-calendary">
-                        {getDate(program.next_date)}
+                        {getDate(program.nextDate)}
                       </div>
                     </div>
                     <div className="Feed-events-item-header-divider"/>
@@ -171,31 +171,42 @@ const Feed = ({history, user, onSetProfile}) => {
                     </div>
                   </div>
                   <div className="Feed-events-item-info-bar">
-                    <div className="Feed-events-item-info-bar-location">
-                      <img
-                        src={locationLogo}
-                        alt="location marker"
-                      />
-                      <span>
-                    {program.location}
-                  </span>
-                    </div>
+                      {
+                          program.location && (
+                              <div className="Feed-events-item-info-bar-location">
+                                  <img
+                                      src={locationLogo}
+                                      alt="location marker"
+                                  />
+                                  <span>
+                                    {program.location}
+                                  </span>
+                              </div>
+                          )
+                      }
+
                     <div className="Feed-events-item-info-bar-comments">
                       <img
                         src={commentsLogo}
                         alt="comments logo"
                       />
                       <span>
-                    {program.comments}
-                  </span>
+                        {getCorrectForm(program.comments, 'комментарий', 'комментария', 'комментариев')}
+                      </span>
                     </div>
                   </div>
-                  <div className="Feed-events-item-image-wrapper">
-                    <img
-                      src={program.photo}
-                      alt="program logo"
-                    />
-                  </div>
+                    {
+                        program.image && (
+                            <div className="Feed-events-item-image-wrapper">
+                                <img
+                                    src={`${AVATAR_BASE_URL}/${program.image}`}
+                                    alt="program logo"
+                                    onError={(event) => event.target.parentElement.remove()}
+                                />
+                            </div>
+                        )
+                    }
+
                 </div>
               ))
             ) : (

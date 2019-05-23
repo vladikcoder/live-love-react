@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import {connect} from 'react-redux';
 
 import {onSetProfile} from '../store/actions';
-import {AVATAR_BASE_URL, getUserProfile} from '../constsService';
+import {AVATAR_BASE_URL, getUserProfile, getCorrectForm} from '../constsService';
 
 import './styles/Profile.css';
 
@@ -164,8 +164,8 @@ class Profile extends Component {
                           alt="clockLogo"
                         />
                         <span>
-                    {program.duration}
-                  </span>
+                          {getCorrectForm(Math.ceil(program.duration / 86400), 'день', 'дня', 'дней')}
+                        </span>
                       </div>
                       <div className="status-bar-participants">
                         <img
@@ -173,8 +173,8 @@ class Profile extends Component {
                           alt="peopleLogo"
                         />
                         <span>
-                    {program.participants}
-                  </span>
+                          {getCorrectForm(program.participants, 'участник', 'участника', 'участников')}
+                        </span>
                       </div>
                     </div>
 
@@ -220,8 +220,8 @@ class Profile extends Component {
                         alt="clockLogo"
                       />
                       <span>
-                        {doneProgram.duration}
-                  </span>
+                        {getCorrectForm(Math.ceil(doneProgram.duration / 86400), 'день', 'дня', 'дней')}
+                      </span>
                     </div>
                     <div className="status-bar-participants">
                       <img
@@ -229,8 +229,8 @@ class Profile extends Component {
                         alt="peopleLogo"
                       />
                       <span>
-                    {doneProgram.participants}
-                  </span>
+                        {getCorrectForm(doneProgram.participants, 'участник', 'участника', 'участников')}
+                      </span>
                     </div>
                   </div>
 

@@ -148,17 +148,19 @@
 .Feed-events-item-info-bar-location {
   position: relative;
   display: inline-block;
+  margin-right: 16px;
 }
 
 .Feed-events-item-info-bar-location span {
   color: rgb(199, 199, 204);
   font-size: .8em;
   margin-left: 18px;
+
 }
 
 .Feed-events-item-info-bar-comments {
   display: inline-block;
-  margin-left: 16px;
+
   position: relative;
 }
 

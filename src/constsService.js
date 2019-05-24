@@ -23,14 +23,26 @@ export const getUserProfile = (access_token) => {
 export const getCorrectForm = (wordCount, firstForm, secondForm, thirdForm) => {
     switch (wordCount.toString().slice(-1)) {
         case '1':
-            return `${wordCount} ${firstForm}`;
+          switch (wordCount.toString().slice(-2)) {
+            case '11':
+              return `${wordCount} ${thirdForm}`;
+            default:
+              return `${wordCount} ${firstForm}`;
+          }
 
         case '2':
         case '3':
         case '4':
-            return `${wordCount} ${secondForm}`;
+          switch (wordCount.toString().slice(-2)) {
+            case '12':
+            case '13':
+            case '14':
+              return `${wordCount} ${thirdForm}`;
+            default:
+              return `${wordCount} ${secondForm}`;
+          }
 
         default:
             return `${wordCount} ${thirdForm}`;
     }
-}
+};

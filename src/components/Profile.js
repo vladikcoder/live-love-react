@@ -29,6 +29,18 @@ class Profile extends Component {
     return `+${phone.slice(0, 3)} (${phone.slice(3, 5)}) ${phone.slice(5, 8)} ${phone.slice(8, 10)} ${phone.slice(10, 12)}`;
   }
 
+  getCalendaryDuration(seconds) {
+    if (seconds < 604800) {
+      return getCorrectForm(Math.ceil(seconds / 86400), 'день', 'дня', 'дней');
+    } else if (seconds < 2592000) {
+      return getCorrectForm(Math.ceil(seconds / 604800), 'неделя', 'недели', 'недель')
+    } else if (seconds < 31536000) {
+      return getCorrectForm(Math.ceil(seconds / 2592000), 'месяц', 'месяца', 'месяцев')
+    } else {
+      return getCorrectForm(Math.ceil(seconds / 31536000), 'год', 'года', 'лет')
+    }
+  }
+
   render() {
     const {id, name, phone, image, programs, facebook, instagram, strava} = this.props.user.profile;
 
@@ -164,7 +176,7 @@ class Profile extends Component {
                           alt="clockLogo"
                         />
                         <span>
-                          {getCorrectForm(Math.ceil(program.duration / 86400), 'день', 'дня', 'дней')}
+                          {this.getCalendaryDuration(program.duration)}
                         </span>
                       </div>
                       <div className="status-bar-participants">
@@ -220,7 +232,7 @@ class Profile extends Component {
                         alt="clockLogo"
                       />
                       <span>
-                        {getCorrectForm(Math.ceil(doneProgram.duration / 86400), 'день', 'дня', 'дней')}
+                        {this.getCalendaryDuration(doneProgram.duration)}
                       </span>
                     </div>
                     <div className="status-bar-participants">

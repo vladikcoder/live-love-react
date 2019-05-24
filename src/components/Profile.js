@@ -190,9 +190,13 @@ class Profile extends Component {
                       </div>
                     </div>
 
-                    {program.photo && (
+                    {program.image && (
                       <div className="Profile-programs-current-item-photo-wrapper">
-                        <img src={program.photo} alt="program logo"/>
+                        <img
+                          src={`${AVATAR_BASE_URL}/${program.image}`}
+                          alt="program logo"
+                          onError={(event) => event.target.parentElement.remove()}
+                        />
                       </div>
                     )}
                   </div>
@@ -246,9 +250,13 @@ class Profile extends Component {
                     </div>
                   </div>
 
-                  {doneProgram.photo && (
+                  {doneProgram.image && (
                     <div className="Profile-programs-current-item-photo-wrapper">
-                      <img src={doneProgram.photo} alt="program logo"/>
+                      <img
+                        src={`${AVATAR_BASE_URL}/${doneProgram.image}`}
+                        alt="program logo"
+                        onError={(event) => event.target.parentElement.remove()}
+                      />
                     </div>
                   )}
                 </div>
